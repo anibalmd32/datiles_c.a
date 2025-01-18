@@ -1,4 +1,5 @@
 import { DollarSign, LucideBox, Settings } from "lucide-react"
+import { NavLink } from 'react-router'
 
 import {
   Sidebar,
@@ -35,16 +36,16 @@ export function AppSidebar() {
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="text-xl font-bold">DATILES.CA</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-xl font-bold mb-4">DATILES.CA</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                    <NavLink to={item.url} className='font-semibold'>
                       <item.icon />
                       <span>{item.title}</span>
-                    </a>
+                    </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}

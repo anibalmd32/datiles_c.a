@@ -1,7 +1,10 @@
+import { ViewContainer } from "@/components/shared/ViewMisc/ViewContainer"
+import { ViewTitle } from "@/components/shared/ViewMisc/ViewTitle"
+
 export function Sales() {
     return (
-        <section>
-            <h1>Ventas</h1>
-        </section>
+        <ViewContainer>
+            <ViewTitle titleValue="Ventas" />
+        </ViewContainer>
     )
 }

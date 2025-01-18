@@ -1,7 +1,10 @@
+import { ViewContainer } from "@/components/shared/ViewMisc/ViewContainer"
+import { ViewTitle } from "@/components/shared/ViewMisc/ViewTitle"
+
 export function Products() {
     return (
-        <section>
-            <h1>Productos</h1>
-        </section>
+        <ViewContainer>
+            <ViewTitle titleValue="Productos" />
+        </ViewContainer>
     )
 }

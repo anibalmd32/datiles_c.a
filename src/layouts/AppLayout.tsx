@@ -8,10 +8,7 @@ export function AppLayout() {
       <AppSidebar />
       <main>
         <SidebarTrigger />
-
-        <div aria-roledescription="container" className="p-2 md:p-8">
-          <Outlet />
-        </div>
+        <Outlet />
       </main>
     </SidebarProvider>
   )

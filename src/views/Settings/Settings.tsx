@@ -1,7 +1,10 @@
+import { ViewContainer } from "@/components/shared/ViewMisc/ViewContainer"
+import { ViewTitle } from "@/components/shared/ViewMisc/ViewTitle"
+
 export function Settings() {
     return (
-        <section>
-            <h1>Configuraciones</h1>
-        </section>
+        <ViewContainer>
+            <ViewTitle titleValue="Configuraciones" />
+        </ViewContainer>
     )
 }
