@@ -19,11 +19,11 @@ export type Category = {
 export type Product = {
     name: string;
     code: string;
-    category_id: number;
     purchase_usd: string;
     sale_usd: string;
     purchase_bs: string;
     sale_bs: string;
+    category_id?: number;
 }
 
 export type PaymentMethod = {

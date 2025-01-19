@@ -10,7 +10,7 @@ fn greet(name: &str) -> String {
 pub fn run() {
     let migrations = vec![Migration {
         version: 1,
-        description: "create users table",
+        description: "init",
         sql: include_str!("../migrations/01_init.sql"),
         kind: MigrationKind::Up,
     }];
