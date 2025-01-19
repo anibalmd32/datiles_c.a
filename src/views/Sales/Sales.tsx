@@ -62,7 +62,7 @@ export function Sales() {
             </div>
 
             <div>
-                <DataTable cols={cols} rows={rows} />
+                {/* <DataTable cols={cols} rows={rows} loading={false} /> */}
                 <DataPagination
                     currentPage={1}
                     onPageChange={async (pageNumber) => {

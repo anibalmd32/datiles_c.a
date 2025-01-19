@@ -11,6 +11,20 @@ export function AppLayout() {
   const { toast } = useToast()
 
   useEffect(() => {
+      const disableContextMenu = (event: any) => {
+        event.preventDefault(); // Evita que se muestre el menú contextual
+      };
+  
+      // Agrega el listener para todo el documento
+      document.addEventListener("contextmenu", disableContextMenu);
+  
+      // Limpia el listener al desmontar el componente
+      return () => {
+        document.removeEventListener("contextmenu", disableContextMenu);
+      };
+    }, []);
+
+  useEffect(() => {
     databaseSeeder()
       .then(() => {
         toast({

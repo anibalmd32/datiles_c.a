@@ -35,7 +35,7 @@ export function createAsyncSlice<BaseState, V>(
                 try {
                     const res = await execute({
                         get: store.getState,
-                        set: () => store.setState
+                        set: store.setState
                     }, values)
                     externalCbs?.onSuccess?.(res ?? undefined)
                 } catch (error: unknown) {

@@ -15,7 +15,7 @@ import {
 // Menu items.
 const items = [
   {
-    title: "ventas",
+    title: "Ventas",
     url: "/",
     icon: DollarSign,
   },
