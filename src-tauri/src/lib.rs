@@ -11,7 +11,7 @@ pub fn run() {
     let migrations = vec![Migration {
         version: 1,
         description: "create users table",
-        sql: include_str!("../database/migrations/01_test.sql"),
+        sql: include_str!("../migrations/01_init.sql"),
         kind: MigrationKind::Up,
     }];
     tauri::Builder::default()
