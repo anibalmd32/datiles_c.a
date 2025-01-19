@@ -19,7 +19,7 @@ export function Sales() {
         searchSale,
         handleSelectFilter,
         selectOptionItems,
-        handleRangeFilter
+        handleRangeFilter,
     } = useSales()
 
     return (
