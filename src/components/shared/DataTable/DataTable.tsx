@@ -29,7 +29,7 @@ export type DataTableCol<T> = {
 
 export type DataTableContextMenu<T> = {
     label: string;
-    action: (row: T) => void;
+    action: (row: T) => Promise<void>;
 }
 
 interface Props<T> {
@@ -86,8 +86,8 @@ export function DataTable<T>({ cols, rows, loading, contextMenuItems }: Props<T>
                                                 <ContextMenuContent>
                                                     {contextMenuItems.map((item, j) => {
                                                         return (
-                                                            <ContextMenuItem key={j} onClick={() => {
-                                                                item.action(row.field)
+                                                            <ContextMenuItem key={j} onClick={async () => {
+                                                                await item.action(row.field)
                                                             }}>
                                                                 {item.label}
                                                             </ContextMenuItem>

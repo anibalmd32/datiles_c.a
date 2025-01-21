@@ -14,12 +14,12 @@ export const deleteCategorySlice = createAsyncSlice<CategoriesBaseState, Categor
                 [values.id]
             )
 
-            if (queryResult.lastInsertId) {
+            if (queryResult.rowsAffected > 0) {
                 set((prev) => ({
                     ...prev,
                     categories: {
                         ...baseState,
-                        data: baseState.data.filter(category => category.id !== queryResult.lastInsertId)
+                        data: baseState.data.filter(category => category.id !== values.id)
                     }
                 }))
             }

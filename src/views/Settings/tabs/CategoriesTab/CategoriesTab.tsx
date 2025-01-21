@@ -80,15 +80,15 @@ export function CategoriesTab() {
                     contextMenuItems={[
                         {
                             label: 'Editar',
-                            action: (field) => {
+                            action: async (field) => {
                                 categoryForm.setValue('name', field.name)
                                 handleEditCategory(field.id)
                             }
                         },
                         {
                             label: 'Eliminar',
-                            action: (filed) => {
-                                handleDeleteCategory(filed)
+                            action: async (filed) => {
+                                await handleDeleteCategory(filed)
                             }
                         }
                     ]}
