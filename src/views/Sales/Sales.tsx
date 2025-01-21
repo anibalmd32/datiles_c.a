@@ -5,7 +5,6 @@ import { SearchInput } from "@/components/shared/SearchInput/SearchInput"
 import { SelectOptions } from "@/components/shared/SelectOption/SelectOption"
 import { DateRangePicker } from "@/components/shared/DateRangePicker/DateRangePicker"
 import { Separator } from "@/components/ui/separator"
-import { DataTable } from "@/components/shared/DataTable/DataTable"
 import { DataPagination } from "@/components/shared/DataTable/DataPagination"
 import { Plus } from 'lucide-react'
 import { useSales } from "./useSales"
@@ -13,8 +12,6 @@ import { useSales } from "./useSales"
 
 export function Sales() {
     const {
-        cols,
-        rows,
         handleSearchSale,
         searchSale,
         handleSelectFilter,

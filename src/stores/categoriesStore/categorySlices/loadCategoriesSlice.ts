@@ -1,12 +1,12 @@
 import { createAsyncSlice } from "@/lib/asyncSlices";
 import { CategoriesBaseState } from "../categoriesStore";
 import { Category, SharedDataProp } from "@/definitions/data";
-import { db } from "@/lib/database";
 import { PaginatedData } from "@/definitions/helpers";
+import Database from '@tauri-apps/plugin-sql'
 
 export const loadCategoriesSlice = createAsyncSlice<CategoriesBaseState, PaginatedData<Category[]>>({
     execute: async ({ get, set }) => {
-
+        const db = await Database.load('sqlite:datiles.db')
         const baseState = get().categories;
 
         const [totalCategoryStoredRows] = await db.select<Array<{ total: number }>>(`

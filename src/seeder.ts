@@ -1,8 +1,10 @@
-import { db } from "./lib/database";
+import Database from '@tauri-apps/plugin-sql'
 import { InvoiceStatus, PaymentMethod } from "./definitions/data";
 import { INVOICE_STATUS, PAYMENT_METHOD } from "./definitions/enums";
 
 export async function databaseSeeder() {
+    const db = await Database.load('sqlite:datiles.db')
+    
     const paymentMethodResult = await db.select<PaymentMethod[]>('SELECT * FROM payment_methods;')
     const invoiceStatusResult = await db.select<InvoiceStatus[]>('SELECT * FROM invoice_status;')
 

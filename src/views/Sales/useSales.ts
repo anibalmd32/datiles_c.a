@@ -4,7 +4,6 @@ import { salesRows } from "./SalesRows"
 import { useState } from "react"
 import { PAYMENT_METHOD } from "@/definitions/enums"
 import { SelectOptionItem } from "@/components/shared/SelectOption/SelectOption"
-import { db } from "@/lib/database"
 
 export const useSales = () => {
     const [invoicesData] = useState<InvoiceData[]>([])
