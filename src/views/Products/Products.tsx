@@ -1,10 +1,32 @@
+import { useProductsStore } from "@/stores/productsStore/useProductsStore"
 import { ViewContainer } from "@/components/shared/ViewMisc/ViewContainer"
 import { ViewTitle } from "@/components/shared/ViewMisc/ViewTitle"
+import { IconButton } from "@/components/shared/IconButton/IconButton";
+import { Plus } from "lucide-react";
+import { useNavigate } from "react-router";
+import { useEffect } from "react";
 
 export function Products() {
+    const loadProducts = useProductsStore(store => store.loadProducts);
+
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        loadProducts.run();
+    }, [loadProducts]);
+
     return (
         <ViewContainer>
-            <ViewTitle titleValue="Productos" />
+            <div className="w-full flex justify-between">
+                <ViewTitle titleValue="Productos" />
+                <IconButton
+                    text="Agregar Producto"
+                    Icon={Plus}
+                    onClick={() => {
+                        navigate('add')
+                    }}
+                />
+            </div>
         </ViewContainer>
     )
 }

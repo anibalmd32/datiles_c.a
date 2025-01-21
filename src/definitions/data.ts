@@ -23,7 +23,7 @@ export type Product = {
     sale_usd: string;
     purchase_bs: string;
     sale_bs: string;
-    category_id?: number;
+    category_id: number | null;
 }
 
 export type PaymentMethod = {

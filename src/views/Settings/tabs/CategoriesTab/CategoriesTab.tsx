@@ -49,7 +49,7 @@ export function CategoriesTab() {
                     placeholder="Buscar categoría"
                 />
                 <Form {...categoryForm}>
-                    <form onSubmit={handleSubmitCategory} className="flex gap-2">
+                    <form autoComplete="off" onSubmit={handleSubmitCategory} className="flex gap-2">
                         <FormField
                             control={categoryForm.control}
                             name='name'
