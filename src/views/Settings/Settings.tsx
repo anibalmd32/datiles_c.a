@@ -3,6 +3,7 @@ import { ViewTitle } from "@/components/shared/ViewMisc/ViewTitle"
 import { Separator } from "@/components/ui/separator"
 import { DynamicTabs } from "@/components/shared/DynamicTabs/DynamicTabs"
 import { CategoriesTab } from "./tabs/CategoriesTab/CategoriesTab"
+import { PaymentMethodsTab } from "./tabs/PaymentMethodsTab/PaymentMethodsTab"
 
 export function Settings() {
     return (
@@ -26,7 +27,7 @@ export function Settings() {
                     {
                         label: 'Métodos de pago',
                         value: 'payment_methods',
-                        element: <div>Métodos de pago</div>
+                        element: <PaymentMethodsTab />
                     },
                 ]}
             />

@@ -37,7 +37,7 @@ export function CategoriesTab() {
     return (
         <div className="md:max-w-xl space-y-4">
             <div className="mb-4 mt-4">
-                <h2 className="text-xl font-semibold">Lista de categorías</h2>
+                <h2  >Lista de categorías</h2>
             </div>
 
             <div className="flex gap-4">
