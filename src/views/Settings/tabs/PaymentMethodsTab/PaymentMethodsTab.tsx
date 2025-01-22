@@ -4,6 +4,7 @@ import { DataTable } from "@/components/shared/DataTable/DataTable"
 import { usePaymentMethodsStore } from "@/stores/paymentMethodsStore/paymentMethodStore"
 import { useEffect } from "react"
 import { DataPagination } from "@/components/shared/DataTable/DataPagination"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 
 export function PaymentMethodsTab() {
     const loadPaymentMethods = usePaymentMethodsStore(store => store.loadPaymentMethods)
@@ -14,26 +15,29 @@ export function PaymentMethodsTab() {
     }, [loadPaymentMethods])
 
     return (
-        <div className="md:max-w-xl space-y-4">
-            <div className="mb-4 mt-4">
-                <h2 className="text-xl font-semibold">
+        <Card>
+            <CardHeader>
+                <CardTitle>
                     Métodos de pago
-                </h2>
-            </div>
+                </CardTitle>
+                <CardDescription>
+                    Métodos o medios mediante los cuales sus clientes pueden pagar al comprar sus productos
+                </CardDescription>
+            </CardHeader>
 
-            <div className="flex gap-4">
-                <SearchInput
-                    onExternalChange={async () => {
 
-                    }}
-                    placeholder="Buscar método de pago"
-                    value=""
-                />
+            <CardContent className="space-y-2">
+                <div className="flex gap-4">
+                    <SearchInput
+                        onExternalChange={async () => {
 
-                {/* TODO: input para agregar método de pago */}
-            </div>
+                        }}
+                        placeholder="Buscar método de pago"
+                        value=""
+                    />
 
-            <div>
+                    {/* TODO: input para agregar método de pago */}
+                </div>
                 <DataTable
                     cols={table.cols}
                     rows={table.rows}
@@ -41,20 +45,20 @@ export function PaymentMethodsTab() {
                     contextMenuItems={[
                         {
                             label: 'Editar',
-                            action: async () => {}
+                            action: async () => { }
                         },
                         {
                             label: 'Eliminar',
-                            action: async () => {}
+                            action: async () => { }
                         }
                     ]}
                 />
                 <DataPagination
                     currentPage={table.currentPage}
                     totalPages={table.totalPages}
-                    onPageChange={async () => {}}
+                    onPageChange={async () => { }}
                 />
-            </div>
-        </div>
+            </CardContent>
+        </Card>
     )
 }

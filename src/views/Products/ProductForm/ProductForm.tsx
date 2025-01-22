@@ -11,6 +11,7 @@ import { useProductForm } from "./useProductForm";
 import { SelectOptions } from "@/components/shared/SelectOption/SelectOption";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
 export function ProductForm() {
     const {
@@ -20,9 +21,13 @@ export function ProductForm() {
     } = useProductForm()
 
     return (
-        <div className="bg-primary p-6 md:max-w-xl m-auto mt-10 rounded-sm">
-            <div className="bg-secondary p-4 rounded-sm">
-                <h2 className="text-xl font-bold mb-4 text-center">Complete los campos para agregar un nuevo producto a su inventario</h2>
+        <Card>
+            <CardHeader>
+                <CardTitle>
+                    Complete los campos para agregar un nuevo producto a su inventario
+                </CardTitle>
+            </CardHeader>
+            <CardContent>
                 <Form {...form}>
                     <form autoComplete="off" onSubmit={handleSubmit} className="space-y-4">
                         <FormField
@@ -203,7 +208,8 @@ export function ProductForm() {
                     </form>
                 </Form>
 
-            </div>
-        </div>
+            </CardContent>
+
+        </Card>
     )
 }
