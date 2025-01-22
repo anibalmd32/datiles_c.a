@@ -16,6 +16,11 @@ export type Category = {
     name: string
 }
 
+export type MeasurementUnit = {
+    name: string;
+    value: number;
+}
+
 export type Product = {
     name: string;
     code: string;
@@ -24,6 +29,8 @@ export type Product = {
     purchase_bs: string;
     sale_bs: string;
     category_id: number | null;
+    quantity: number;
+    unit_id: number | null;
 }
 
 export type PaymentMethod = {
