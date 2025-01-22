@@ -3,8 +3,8 @@ import { Product, SharedDataProp } from "@/definitions/data";
 import { formatEsFullDate } from "@/lib/utils";
 
 export const createProductTableRows = (
-    products: Array<Product & SharedDataProp>
-): Array<DataTableRow<Product & SharedDataProp>> => {
+    products: Array<Product & SharedDataProp & { category_name: string }>
+): Array<DataTableRow<Product & SharedDataProp & { category_name: string }>> => {
     return products.map(p => {
         return {
             field: p,

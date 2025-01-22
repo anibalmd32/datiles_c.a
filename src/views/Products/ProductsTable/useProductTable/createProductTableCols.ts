@@ -1,7 +1,7 @@
 import { DataTableCol } from "@/components/shared/DataTable/DataTable";
 import { Product, SharedDataProp } from "@/definitions/data";
 
-export const createProductTableCols = (): Array<DataTableCol<Product & SharedDataProp>> => {
+export const createProductTableCols = (): Array<DataTableCol<Product & SharedDataProp & { category_name: string }>> => {
     return [
         {
             label: 'Código',
@@ -35,7 +35,7 @@ export const createProductTableCols = (): Array<DataTableCol<Product & SharedDat
         },
         {
             label: 'Categoría',
-            name: 'category_id',
+            name: 'category_name',
             position: 'center'
         },
         {

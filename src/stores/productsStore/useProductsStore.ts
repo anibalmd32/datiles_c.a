@@ -6,7 +6,7 @@ import { addProductSlice } from "./productsSlices/addProductSlice";
 import { loadProductsSlice } from "./productsSlices/loadProductsSlice";
 
 export type ProductsBaseState = {
-    products: PaginatedData<Array<Product & SharedDataProp>>;
+    products: PaginatedData<Array<Product & SharedDataProp & { category_name: string}>>;
     totalInvested: {
         bs: number;
         usd: number;
