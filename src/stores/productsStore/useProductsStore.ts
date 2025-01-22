@@ -14,7 +14,7 @@ export type ProductsBaseState = {
 }
 
 type ProductsSlices = {
-    loadProducts: AsyncSlice<PaginatedData<Array<Product>>>;
+    loadProducts: AsyncSlice<PaginatedData<Array<Product & { category_name: string }>>>;
     addProduct: AsyncSlice<Product>;
 }
 

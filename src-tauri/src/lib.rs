@@ -27,6 +27,18 @@ pub fn run() {
             sql: include_str!("../migrations/03_unit_product_relation.sql"),
             kind: MigrationKind::Up,
         },
+        Migration {
+            version: 4,
+            description: "delete_unnecessary_columns",
+            sql: include_str!("../migrations/04_delete_unnecessary_columns.sql"),
+            kind: MigrationKind::Up,
+        },
+        Migration {
+            version: 5,
+            description: "delete_value_column_in_invoice_status_table",
+            sql: include_str!("../migrations/05_delete_value_column_in_invoice_status_table.sql"),
+            kind: MigrationKind::Up,
+        },
     ];
     tauri::Builder::default()
         .plugin(

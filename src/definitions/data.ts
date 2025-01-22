@@ -1,5 +1,3 @@
-import { PAYMENT_METHOD } from "./enums";
-
 export type SharedDataProp = {
     id: number;
     created_at: Date;
@@ -18,7 +16,6 @@ export type Category = {
 
 export type MeasurementUnit = {
     name: string;
-    value: number;
 }
 
 export type Product = {
@@ -35,13 +32,11 @@ export type Product = {
 
 export type PaymentMethod = {
     name: string;
-    value: number;
     active: boolean;
 }
 
 export type InvoiceStatus = {
     name: string;
-    value: number;
 }
 
 export type Invoice = {
@@ -63,13 +58,4 @@ export type Sale = {
 export type InvoiceItem = {
     invoice_id: number;
     sale_id: number;
-}
-
-export type InvoiceData = {
-    id: number;
-    code: string;
-    paymentMethod: PAYMENT_METHOD;
-    totalUSD: string;
-    totalBS: string;
-    date: string;
 }

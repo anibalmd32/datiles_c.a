@@ -1,70 +1,89 @@
 import Database from '@tauri-apps/plugin-sql'
-import { InvoiceStatus, PaymentMethod } from "./definitions/data";
-import { INVOICE_STATUS, PAYMENT_METHOD } from "./definitions/enums";
+import { InvoiceStatus, MeasurementUnit, PaymentMethod } from "./definitions/data";
 
 export async function databaseSeeder() {
     const db = await Database.load('sqlite:datiles.db')
     
     const paymentMethodResult = await db.select<PaymentMethod[]>('SELECT * FROM payment_methods;')
     const invoiceStatusResult = await db.select<InvoiceStatus[]>('SELECT * FROM invoice_status;')
+    const measurementsUnitsResult = await db.select<MeasurementUnit[]>('SELECT * FROM measurement_units')
 
     const paymentMethodData: PaymentMethod[] = [
         {
-            value: PAYMENT_METHOD.ANY,
             name: 'cualquiera',
             active: true
         },
         {
-            value: PAYMENT_METHOD.CARD,
             name: 'tarjeta',
             active: true,
         },
         {
-            value: PAYMENT_METHOD.CASH,
             name: 'efectivo',
             active: true,
         },
         {
-            value: PAYMENT_METHOD.TRANSFER,
             name: 'transferencia',
             active: true,
         }
     ];
     const invoiceStatusData: InvoiceStatus[] = [
         {
-            value: INVOICE_STATUS.PAID,
             name: 'pagada'
         },
         {
-            value: INVOICE_STATUS.PENDING,
             name: 'pendiente'
         },
         {
-            value: INVOICE_STATUS.REJECTED,
             name: 'rechazada'
         }
     ];
 
+    const measurementsUnitsData: MeasurementUnit[] = [
+        {
+            name: 'kilo',
+        },
+        {
+            name: 'gramo',
+        },
+        {
+            name: 'caja'
+        },
+        {
+            name: 'paquete'
+        }
+    ]
+
     const paymentMethodSeeder = async () => {
         for (const data of paymentMethodData) {
-            const { active, name, value } = data;
+            const { active, name } = data;
             await db.execute(
-                'INSERT INTO payment_methods (name, value, active) VALUES (?, ?, ?)',
-                [name, value, active]
+                'INSERT INTO payment_methods (name, active) VALUES (?, ?)',
+                [name, active]
             )
         }
     }
 
     const invoiceStatusSeeder = async () => {
         for (const data of invoiceStatusData) {
-            const { name, value } = data;
+            const { name } = data;
             await db.execute(
-                'INSERT INTO invoice_status (name, value) VALUES (?, ?)',
-                [name, value]
+                'INSERT INTO invoice_status (name) VALUES (?)',
+                [name]
+            )
+        }
+    }
+
+    const measurementUnitsSeeder = async () => {
+        for (const data of measurementsUnitsData) {
+            const { name } = data;
+            await db.execute(
+                'INSERT INTO measurement_units (name) VALUES (?)',
+                [name]
             )
         }
     }
 
     paymentMethodResult.length === 0 && await paymentMethodSeeder()
     invoiceStatusResult.length === 0 && await invoiceStatusSeeder()
+    measurementsUnitsResult.length === 0 && await measurementUnitsSeeder()
 }

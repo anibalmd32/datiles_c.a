@@ -25,7 +25,9 @@ export const useProductForm = () => {
             purchase_bs: '',
             purchase_usd: '',
             sale_bs: '',
-            sale_usd: ''
+            sale_usd: '',
+            quantity: 0,
+            unit_id: null,
         },
         resolver: zodResolver(productFormSchema),
     })

@@ -33,8 +33,18 @@ export const addProductSlice = createAsyncSlice<
             ])
 
             if (queryResult.lastInsertId) {
-                const lastInsertResult = await db.select<Array<Product & SharedDataProp>>(
-                    'SELECT * FROM products WHERE id = ?;',
+                const lastInsertResult = await db.select<Array<Product & SharedDataProp & { category_name: string }>>(
+                    `
+                   SELECT
+                        p.*,
+                        c.name AS category_name
+                    FROM
+                        products p
+                    INNER JOIN
+                        categories c ON c.id = p.category_id
+                    WHERE
+                        p.id = ?;
+                    `,
                     [queryResult.lastInsertId]
                 )
 
