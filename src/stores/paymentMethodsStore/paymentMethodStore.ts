@@ -1,29 +1,62 @@
 import { create } from "zustand";
 import { PaymentMethod, SharedDataProp } from "@/definitions/data";
-import { PaginatedData } from "@/definitions/helpers";
+import { PaginationState, FilterState } from "@/definitions/helpers";
 import { AsyncSlice } from "@/lib/asyncSlices";
 import { loadPaymentMethodsSlice } from "./paymentMethodsSlices/loadPaymentMethodsSlice";
 import { changePaymentMethodStatusSlice } from "./paymentMethodsSlices/changeStatusSlice";
 
 export type PaymentMethodsBaseState = {
-    paymentMethods: PaginatedData<Array<PaymentMethod & SharedDataProp>>;
+    paymentMethods: Array<PaymentMethod & SharedDataProp>;
+    pagination: PaginationState;
+    filters: FilterState
 }
 
 type PaymentMethodsSlices = {
-    loadPaymentMethods: AsyncSlice<PaginatedData<Array<PaymentMethod>>>;
+    loadPaymentMethods: AsyncSlice<Array<PaymentMethod & SharedDataProp>>;
     changePaymentMethodStatus: AsyncSlice<{ id: number, status: boolean }>
 }
 
 export const usePaymentMethodsStore = create<
     PaymentMethodsBaseState & PaymentMethodsSlices
 >()((...a) => ({
-    paymentMethods: {
+    paymentMethods: [],
+    pagination: {
         currentPage: 1,
-        data: [],
-        nextPage: 2,
         pageSize: 5,
-        prevPage: 0,
         totalPages: 0,
+        setCurrentPage: (page) => {
+            const [set] = a
+            set((prev) => ({
+                ...prev,
+                pagination: {
+                    ...prev.pagination,
+                    currentPage: page
+                }
+            }))
+        },
+        setPageSize: (size) => {
+            const [set] = a
+            set((prev) => ({
+                ...prev,
+                pagination: {
+                    ...prev.pagination,
+                    pageSize: size
+                }
+            }))
+        }
+    },
+    filters: {
+        search: '',
+        setSearch: (value) => {
+            const [set] = a
+            set((prev) => ({
+                ...prev,
+                filters: {
+                    ...prev.filters,
+                    search: value
+                }
+            }))
+        }
     },
     loadPaymentMethods: loadPaymentMethodsSlice(...a),
     changePaymentMethodStatus: changePaymentMethodStatusSlice(...a)

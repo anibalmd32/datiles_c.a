@@ -8,7 +8,7 @@ export const changePaymentMethodStatusSlice = createAsyncSlice<
 >({
     execute: async ({ get, set }, values) => {
         const db = await Database.load('sqlite:datiles.db')
-        const baseState = get().paymentMethods
+        const paymentMethodsState = get().paymentMethods
 
         if (values) {
             const queryResult = await db.execute(`
@@ -20,16 +20,13 @@ export const changePaymentMethodStatusSlice = createAsyncSlice<
             if (queryResult.rowsAffected >=1 ) {
                 set((prev) => ({
                     ...prev,
-                    paymentMethods: {
-                        ...baseState,
-                        data: baseState.data.map(paymentMethod => {
-                            if (paymentMethod.id === values.id) {
-                                return {...paymentMethod, active: values.status}
-                            } else {
-                                return paymentMethod
-                            }
-                        })
-                    }
+                    paymentMethods: paymentMethodsState.map(paymentMethod => {
+                        if (paymentMethod.id === values.id) {
+                            return {...paymentMethod, active: values.status}
+                        } else {
+                            return paymentMethod
+                        }
+                    })
                 }))
             }
         }

@@ -6,6 +6,7 @@ import { Separator } from "@/components/ui/separator"
 import { DynamicTabs } from "@/components/shared/DynamicTabs/DynamicTabs"
 
 const CategoriesTab = React.lazy(() => import("../components/Categories/Categories"))
+const PaymentMethodsTab = React.lazy(() => import("../components/PaymentMethods/PaymentMethods"))
 
 export function IndexSettings() {
     return (
@@ -21,6 +22,15 @@ export function IndexSettings() {
                         element: (
                             <Suspense fallback={<Skeleton className="w-full h-screen" />}>
                                 <CategoriesTab />
+                            </Suspense>
+                        )
+                    },
+                    {
+                        label: 'Métodos de pago',
+                        value: 'payment_methods',
+                        element: (
+                            <Suspense fallback={<Skeleton className="w-full h-screen" />}>
+                                <PaymentMethodsTab />
                             </Suspense>
                         )
                     }
