@@ -14,8 +14,6 @@ export const addCategorySlice = createAsyncSlice<CategoriesBaseState, Category>(
                 [values.name]
             )
 
-            console.log('Resultado de agregar:', queryResult)
-
             if (queryResult.lastInsertId) {
                 const lastInsertResult = await db.select<Array<Category & SharedDataProp>>(
                     'SELECT * FROM categories WHERE id = ?',
@@ -26,7 +24,7 @@ export const addCategorySlice = createAsyncSlice<CategoriesBaseState, Category>(
                     ...prev,
                     categories: {
                         ...baseState,
-                        data: [...baseState.data, ...lastInsertResult]
+                        data: [...lastInsertResult, ...baseState.data]
                     }
                 }))
             }

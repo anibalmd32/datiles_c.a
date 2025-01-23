@@ -16,17 +16,17 @@ import {
 const items = [
   {
     title: "Ventas",
-    url: "/",
+    url: "app/sales",
     icon: DollarSign,
   },
   {
     title: "Productos",
-    url: "/products",
+    url: "app/products",
     icon: LucideBox,
   },
   {
     title: "Configuraciones",
-    url: "/settings",
+    url: "app/settings",
     icon: Settings,
   },
 ]

@@ -6,7 +6,6 @@ import { useEffect } from "react";
 import { databaseSeeder } from "@/seeder";
 import { useToast } from "@/hooks/use-toast"
 
-
 export function AppLayout() {
   const { toast } = useToast()
 
