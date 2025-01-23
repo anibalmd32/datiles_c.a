@@ -12,3 +12,7 @@ export function formatEsFullDate(date: Date) {
   const format = "EEEE, d 'de' MMMM 'de' yyyy"
   return formatDate(created_at, format, { locale: es })
 }
+
+export function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
