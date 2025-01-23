@@ -7,7 +7,7 @@ export function CategoryFilters() {
     return (
         <div className="w-full">
             <SearchInput
-                value={filters.searchFilterValue}
+                value={filters.searchFilterValue ?? ''}
                 onExternalChange={(e) => filters.handleSearch(e.target.value)}
                 placeholder="Buscar Categoría"
             />

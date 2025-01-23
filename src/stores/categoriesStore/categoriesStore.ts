@@ -10,6 +10,10 @@ import { PaginatedData } from '@/definitions/helpers'
 export type CategoriesBaseState = {
     categories: PaginatedData<Array<Category & SharedDataProp>>;
     setCurrentPage: (page: number) => void;
+    filters: {
+        searchValue: string | null;
+        setSearchValue: (value: string) => void;
+    }
 }
 
 type CategoryAsyncSlices = {
@@ -27,7 +31,7 @@ CategoriesBaseState & CategoryAsyncSlices
         data: [],
         pageSize: 5,
         totalPages: 0
-    } as PaginatedData<Array<Category & SharedDataProp>>,
+    },
     setCurrentPage: (page) => {
         const [set, get] = a
         const baseState = get().categories
@@ -39,6 +43,21 @@ CategoriesBaseState & CategoryAsyncSlices
                 currentPage: page
             }
         }))
+    },
+    filters: {
+        searchValue: null,
+        setSearchValue: (value) => {
+            const [set, get] = a;
+            const filtersBaseState = get().filters
+
+            set((prev) => ({
+                ...prev,
+                filters: {
+                    ...filtersBaseState,
+                    searchValue: value
+                }
+            }))
+        }
     },
     addCategory: addCategorySlice(...a),
     deleteCategory: deleteCategorySlice(...a),

@@ -1,12 +1,15 @@
-import { useState } from "react"
+import { useCategoriesStore } from "@/stores/categoriesStore/categoriesStore"
 
 export const useCategoryFilter = () => {
-    const [searchFilterValue, setSearchFilterValue] = useState<string>('')
+    const { loadCategories, filters } = useCategoriesStore()
 
-    const handleSearch = (value: string) => setSearchFilterValue(value)
+    const handleSearch = async (value: string) => {
+        filters.setSearchValue(value)
+        await loadCategories.run()
+    }
 
     return {
-        searchFilterValue,
+        searchFilterValue: filters.searchValue,
         handleSearch,
     }
 }

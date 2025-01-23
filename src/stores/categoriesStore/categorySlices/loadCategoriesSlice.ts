@@ -8,27 +8,65 @@ export const loadCategoriesSlice = createAsyncSlice<CategoriesBaseState, Paginat
     execute: async ({ get, set }) => {
         const db = await Database.load('sqlite:datiles.db')
         const baseState = get().categories;
+        const filtersBaseState = get().filters;
 
-        const [totalCategoryStoredRows] = await db.select<Array<{ total: number }>>(`
-                SELECT COUNT(*) AS total
-                FROM categories;
-            `
-        )
+        let countSql = `
+            SELECT COUNT(*) AS total
+            FROM categories;
+        `
+        let countParams: Array<string | number> = []
 
-        const totalCategoryPages = Math.ceil(totalCategoryStoredRows.total / baseState.pageSize);
-
-        const paginatedCategories = await db.select<Array<Category & SharedDataProp>>(`
+        let selectSql = `
             SELECT *
             FROM categories
             ORDER BY id DESC
             LIMIT ? OFFSET ?;
-        `, [baseState.pageSize, (baseState.currentPage - 1) * baseState.pageSize])
-        console.log('Ahora mismo este es el total de paginas:', totalCategoryPages - 3)
-        console.log('Esta es la pagina actual:', baseState.currentPage)
+        `
+        let selectParams: Array<string | number> = [
+            baseState.pageSize,
+            (baseState.currentPage - 1) * baseState.pageSize
+        ]
+
+        if (filtersBaseState.searchValue?.trim()) {
+            const searchValue = filtersBaseState.searchValue.replace(/[%_]/g, "\\$&");
+
+            countSql = `
+                SELECT COUNT(*) AS total
+                FROM categories
+                WHERE name LIKE '%' || ? || '%';
+            `
+            countParams = [searchValue]
+
+            selectSql = `
+                SELECT *
+                FROM categories
+                WHERE name LIKE '%' || ? || '%'
+                ORDER BY id DESC
+                LIMIT ? OFFSET ?;
+            `
+            selectParams = [
+                searchValue,
+                baseState.pageSize,
+                (baseState.currentPage - 1) * baseState.pageSize
+            ]
+        }
+
+        const [totalCategoryStoredRows] = await db.select<Array<{ total: number }>>(
+            countSql,
+            countParams
+        )
+
+        const totalCategoryPages = Math.ceil(totalCategoryStoredRows.total / baseState.pageSize);
+
+        const paginatedCategories = await db.select<Array<Category & SharedDataProp>>(
+            selectSql,
+            selectParams
+        )
+
         set((prev) => ({
             ...prev,
             categories: {
-                ...baseState,
+                ...prev.categories,
                 data: [...paginatedCategories],
                 totalPages: totalCategoryPages,
             }
