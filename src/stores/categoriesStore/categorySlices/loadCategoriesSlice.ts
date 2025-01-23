@@ -22,16 +22,15 @@ export const loadCategoriesSlice = createAsyncSlice<CategoriesBaseState, Paginat
             FROM categories
             ORDER BY id DESC
             LIMIT ? OFFSET ?;
-        `, [baseState.pageSize, baseState.currentPage - 1])
-
+        `, [baseState.pageSize, (baseState.currentPage - 1) * baseState.pageSize])
+        console.log('Ahora mismo este es el total de paginas:', totalCategoryPages - 3)
+        console.log('Esta es la pagina actual:', baseState.currentPage)
         set((prev) => ({
             ...prev,
             categories: {
                 ...baseState,
                 data: [...paginatedCategories],
                 totalPages: totalCategoryPages,
-                nextPage: baseState.currentPage + 1,
-                prevPage: baseState.currentPage - 1,
             }
         }))
     }

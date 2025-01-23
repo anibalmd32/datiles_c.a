@@ -84,7 +84,7 @@ export function DataPagination({
                     </PaginationItem>
                 ))}
 
-                {page <= totalPages - 3 && (
+                {page < totalPages - 2 && (
                     <>
                         <PaginationEllipsis />
                         <PaginationItem

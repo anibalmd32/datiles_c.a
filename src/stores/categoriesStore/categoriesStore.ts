@@ -8,7 +8,8 @@ import { addCategorySlice } from './categorySlices/addCategorySlice'
 import { PaginatedData } from '@/definitions/helpers'
 
 export type CategoriesBaseState = {
-    categories: PaginatedData<Array<Category & SharedDataProp>>
+    categories: PaginatedData<Array<Category & SharedDataProp>>;
+    setCurrentPage: (page: number) => void;
 }
 
 type CategoryAsyncSlices = {
@@ -18,15 +19,27 @@ type CategoryAsyncSlices = {
     deleteCategory: AsyncSlice<Category>;
 }
 
-export const useCategoriesStore = create<CategoriesBaseState & CategoryAsyncSlices>()((...a) => ({
+export const useCategoriesStore = create<
+CategoriesBaseState & CategoryAsyncSlices
+>()((...a) => ({
     categories: {
         currentPage: 1,
         data: [],
-        nextPage: 2,
         pageSize: 5,
-        prevPage: 0,
         totalPages: 0
     } as PaginatedData<Array<Category & SharedDataProp>>,
+    setCurrentPage: (page) => {
+        const [set, get] = a
+        const baseState = get().categories
+
+        set((prev) => ({
+            ...prev,
+            categories: {
+                ...baseState,
+                currentPage: page
+            }
+        }))
+    },
     addCategory: addCategorySlice(...a),
     deleteCategory: deleteCategorySlice(...a),
     loadCategories: loadCategoriesSlice(...a),

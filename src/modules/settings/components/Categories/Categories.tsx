@@ -4,6 +4,7 @@ import { AddCategoryForm } from "./CategoryForm/AddCategoryForm/AddCategoryForm"
 import { useCategoriesStore } from "@/stores/categoriesStore/categoriesStore";
 import { useEffect } from "react";
 import { CategoryTable } from "./CategoryTable/CategoryTable";
+import { CategoryPagination } from "./CategoryPagination/CategoryPagination";
 
 export default function CategoriesTab() {
     const loadCategories = useCategoriesStore(store => store.loadCategories)
@@ -27,6 +28,7 @@ export default function CategoriesTab() {
                 </div>
                 <div>
                     <CategoryTable />
+                    <CategoryPagination />
                 </div>
             </CardContent>
         </Card>

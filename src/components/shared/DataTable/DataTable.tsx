@@ -59,7 +59,7 @@ export function DataTable<T>({ cols, rows, loading, contextMenuItems }: Props<T>
                         <TableRow>
                             <TableCell colSpan={cols.length}>
                                 <div className="m-auto w-full flex justify-center gap-2 items-center">
-                                    <p>Cargando...</p> <LoaderSpinner loading={loading} />
+                                    <p>Cargando...</p> <LoaderSpinner />
                                 </div>
                             </TableCell>
                         </TableRow>

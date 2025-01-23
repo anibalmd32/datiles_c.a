@@ -9,6 +9,7 @@ export const useAddCategory = () => {
     const { toast } = useToast()
     
     const addCategory= useCategoriesStore(store => store.addCategory)
+    const loadCategories = useCategoriesStore(store => store.loadCategories)
 
     const addCategoryForm = useForm<z.infer<typeof categoryFormSchema>>({
         defaultValues: { name: '' },
@@ -18,6 +19,7 @@ export const useAddCategory = () => {
     const onSubmit = addCategoryForm.handleSubmit(async (values) => {
         await addCategory.run({
             onSuccess: () => {
+                loadCategories.run()
                 toast({
                     title: 'Creada con éxito',
                     description: ` La categoría ${values.name} fue agregada con éxito`,
