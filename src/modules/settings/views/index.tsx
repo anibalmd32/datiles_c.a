@@ -1,6 +1,5 @@
-import React, { Suspense} from "react"
+import React, { Suspense } from "react"
 import { Skeleton } from "@/components/ui/skeleton"
-import { UpdateCategoryProvider } from "../Providers/UpdateCategoryProvider"
 import { ViewContainer } from "@/components/shared/ViewMisc/ViewContainer"
 import { ViewTitle } from "@/components/shared/ViewMisc/ViewTitle"
 import { Separator } from "@/components/ui/separator"
@@ -10,25 +9,23 @@ const CategoriesTab = React.lazy(() => import("../components/Categories/Categori
 
 export function IndexSettings() {
     return (
-        <UpdateCategoryProvider>
-            <ViewContainer>
-                <ViewTitle titleValue="Configuraciones" />
-                <Separator />
+        <ViewContainer>
+            <ViewTitle titleValue="Configuraciones" />
+            <Separator />
 
-                <DynamicTabs
-                    items={[
-                        {
-                            label: 'Categorías',
-                            value: 'categories',
-                            element: (
-                                <Suspense fallback={<Skeleton className="w-full h-screen" />}>
-                                    <CategoriesTab />
-                                </Suspense>
-                            )
-                        }
-                    ]}
-                />
-            </ViewContainer>
-        </UpdateCategoryProvider>
+            <DynamicTabs
+                items={[
+                    {
+                        label: 'Categorías',
+                        value: 'categories',
+                        element: (
+                            <Suspense fallback={<Skeleton className="w-full h-screen" />}>
+                                <CategoriesTab />
+                            </Suspense>
+                        )
+                    }
+                ]}
+            />
+        </ViewContainer>
     )
 }

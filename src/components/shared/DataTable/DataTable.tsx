@@ -41,13 +41,17 @@ interface Props<T> {
 
 export function DataTable<T>({ cols, rows, loading, contextMenuItems }: Props<T>) {
     return (
-        <div>
-            <Table className="border rounded-sm">
+        <div className="overflow-x-auto">
+            <Table className="border rounded-sm min-w-full">
                 <TableHeader>
                     <TableRow>
                         {cols.map((col, i) => {
                             return (
-                                <TableHead key={i} className={`text-${col.position} font-bold`}>
+                                <TableHead
+                                    key={i}
+                                    className={`text-${col.position} font-bold`}
+                                    style={{ width: '400px' }}
+                                >
                                     {col.label}
                                 </TableHead>
                             )
@@ -78,7 +82,11 @@ export function DataTable<T>({ cols, rows, loading, contextMenuItems }: Props<T>
                             <TableRow key={i}>
                                 {cols.map((col, i) => {
                                     return (
-                                        <TableCell key={i} className="cursor-pointer">
+                                        <TableCell
+                                            key={i}
+                                            className="cursor-pointer"
+                                            style={{ width: '400px' }}
+                                        >
                                             <ContextMenu>
                                                 <ContextMenuTrigger>
                                                     {row.render({ field: row.field, colName: col.name })}

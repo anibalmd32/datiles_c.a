@@ -1,6 +1,5 @@
 import { Category, SharedDataProp } from "@/definitions/data";
 import React, { useState, createContext, useContext } from "react";
-import { UpdateCategoryForm } from "../components/Categories/CategoryForm/UpdateCategoryForm/UpdateCategoryForm";
 
 const UpdateCategoryCtx = createContext({} as {
     openUpdateCategory: boolean;
@@ -31,7 +30,6 @@ export function UpdateCategoryProvider({ children }: { children: React.ReactNode
             handleCloseForm
         }}>
             {children}
-            <UpdateCategoryForm />
         </UpdateCategoryCtx.Provider>
     )
 }

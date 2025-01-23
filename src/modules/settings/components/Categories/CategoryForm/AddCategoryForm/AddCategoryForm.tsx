@@ -15,14 +15,18 @@ export function AddCategoryForm() {
     const form = useAddCategory()
 
     return (
-        <div>
+        <div className="w-full">
             <Form {...form.addCategoryForm}>
-                <form autoComplete="off" onSubmit={form.onSubmit} className="flex gap-2">
+                <form
+                    autoComplete="off"
+                    onSubmit={form.onSubmit}
+                    className="flex justify-between gap-2 w-full"
+                >
                     <FormField
                         control={form.addCategoryForm.control}
                         name="name"
                         render={({ field }) => (
-                            <FormItem>
+                            <FormItem className="w-full">
                                 <FormControl>
                                     <Input
                                         placeholder="Agregar categoría"

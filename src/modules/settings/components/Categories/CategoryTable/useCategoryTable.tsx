@@ -3,11 +3,15 @@ import { Category, SharedDataProp } from "@/definitions/data"
 import { useCategoriesStore } from "@/stores/categoriesStore/categoriesStore"
 import { formatEsFullDate } from "@/lib/utils";
 import { useUpdateCategoryCtx } from "@/modules/settings/Providers/UpdateCategoryProvider";
+import { useToast } from "@/hooks/use-toast";
 
 export const useCategoryTable = () => {
     const categories = useCategoriesStore(store => store.categories)
     const loadCategories = useCategoriesStore(store => store.loadCategories)
+    const deleteCategory = useCategoriesStore(store => store.deleteCategory)
     const updateCategoryContext = useUpdateCategoryCtx()
+
+    const { toast } = useToast()
 
     const cols: DataTableCol<Category & SharedDataProp>[] = [
         {
@@ -55,7 +59,16 @@ export const useCategoryTable = () => {
         {
             label: 'Eliminar',
             action: async (row) => {
-                console.log(row)
+                await deleteCategory.run({
+                    onSuccess: () => {
+                        toast({ title: 'Categoría eliminada' })
+                    },
+                    onError: (err) => {
+                        toast({ title: 'Error al eliminar categoría', description: err})
+                    }
+                }, { id: row.id })
+
+                await loadCategories.run()
             }
         }
     ]
