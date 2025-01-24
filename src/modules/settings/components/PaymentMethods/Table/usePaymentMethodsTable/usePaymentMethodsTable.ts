@@ -3,10 +3,15 @@ import { paymentMethodCols } from "./paymentMethodsCols";
 import { renderPaymentMethodsRows } from "./renderPaymentMethodsRows";
 import { paymentMethodContextualMenu } from "./contextMenu";
 import { useToast } from "@/hooks/use-toast";
+import { useUpdatePaymentMethodContext } from "@/modules/settings/Providers/UpdatePaymentMethodProvider";
+import { PaymentMethod, SharedDataProp } from "@/definitions/data";
+
+type Data = PaymentMethod & SharedDataProp
 
 export const usePaymentMethodsTable = () => {
     const { toast } = useToast()
     const { paymentMethods, changePaymentMethodStatus, loadPaymentMethods } = usePaymentMethodsStore()
+    const { handleOpenForm } = useUpdatePaymentMethodContext()
 
     const handleChangePaymentMethodStatus = async (
         data: { id: number, status: boolean }
@@ -27,7 +32,9 @@ export const usePaymentMethodsTable = () => {
         }, data)
     }
 
-    const handleEdit = async () => {}
+    const handleEdit = async (row: Data) => {
+        handleOpenForm(row)
+    }
     const handleDelete = async () => {}
 
     return {
