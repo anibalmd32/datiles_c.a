@@ -9,16 +9,17 @@ import { useEffect, useState } from "react";
 type Props = {
     currentPage: number;
     totalPages: number;
-    onPageChange: (pageNumber: number) => Promise<void>;
+    onPageChange: (pageNumber: number) => void;
+    isLoadingData: boolean;
 };
 
 export function DataPagination({
     currentPage,
     totalPages,
     onPageChange,
+    isLoadingData
 }: Props) {
     const [paginationItems, setPaginationItems] = useState<number[]>([]);
-    const [page, setPage] = useState<number>(currentPage);
     const [visiblePages, setVisiblePages] = useState<number[]>([]);
 
     useEffect(() => {
@@ -28,17 +29,18 @@ export function DataPagination({
 
     useEffect(() => {
         if (paginationItems.length > 0) {
-            const groupIndex = Math.floor((page - 1) / 3);
+            const groupIndex = Math.floor((currentPage - 1) / 3);
             const start = groupIndex * 3;
             const end = Math.min(start + 3, totalPages);
             setVisiblePages(paginationItems.slice(start, end));
         }
-    }, [paginationItems, page, totalPages]);
 
-    const handlePageChange = async (pageNumber: number) => {
-        if (pageNumber !== page) {
-            setPage(pageNumber);
-            await onPageChange(pageNumber);
+    }, [paginationItems, currentPage, totalPages]);
+
+
+    const handlePageChange = (pageNumber: number) => {
+        if (pageNumber !== currentPage) {
+            onPageChange(pageNumber);
         }
     };
 
@@ -48,21 +50,30 @@ export function DataPagination({
         <Pagination>
             <PaginationContent>
                 <PaginationItem
-                    className={`${
-                        page === 1 ? "cursor-not-allowed" : "cursor-pointer hover:bg-gray-200"
-                    } mr-2 p-2 rounded-sm transition-all duration-300 select-none`}
-                    onClick={async () => {
-                        if (page > 1) await handlePageChange(page - 1);
+                    className={`
+                        ${
+                            currentPage === 1 || isLoadingData
+                            ? "cursor-not-allowed"
+                            : "cursor-pointer hover:bg-gray-200"
+                        }
+                        mr-2 p-2 rounded-sm transition-all duration-300 select-none
+                    `}
+                    onClick={() => {
+                        if (!isLoadingData && currentPage > 1) {
+                            handlePageChange(currentPage - 1)
+                        };
                     }}
                 >
-                    atrás
+                    <button disabled={isLoadingData}>
+                        atrás
+                    </button>
                 </PaginationItem>
 
-                {page > 3 && (
+                {currentPage > 3 && (
                     <>
                         <PaginationItem
                             className="py-1 px-4 border rounded-sm cursor-pointer hover:bg-gray-200 transition-all duration-300"
-                            onClick={async () => await handlePageChange(1)}
+                            onClick={() => handlePageChange(1)}
                         >
                             1
                         </PaginationItem>
@@ -73,9 +84,13 @@ export function DataPagination({
                 {visiblePages.map((item) => (
                     <PaginationItem
                         key={item}
-                        onClick={async () => await handlePageChange(item)}
+                        onClick={() => {
+                            if (!isLoadingData) {
+                                handlePageChange(item)
+                            }
+                        }}
                         className={`py-1 px-4 border rounded-sm ${
-                            page === item
+                            currentPage === item
                                 ? "bg-primary text-secondary hover:text-black"
                                 : ""
                         } cursor-pointer hover:bg-gray-200 transition-all duration-300`}
@@ -84,12 +99,16 @@ export function DataPagination({
                     </PaginationItem>
                 ))}
 
-                {page < totalPages - 2 && (
+                {currentPage < totalPages - 2 && (
                     <>
                         <PaginationEllipsis />
                         <PaginationItem
                             className="py-1 px-4 border rounded-sm cursor-pointer hover:bg-gray-200 transition-all duration-300"
-                            onClick={async () => await handlePageChange(totalPages)}
+                            onClick={() => {
+                                if (!isLoadingData) {
+                                    handlePageChange(totalPages)
+                                }
+                            }}
                         >
                             {totalPages}
                         </PaginationItem>
@@ -97,16 +116,23 @@ export function DataPagination({
                 )}
 
                 <PaginationItem
-                    className={`${
-                        page === totalPages
+                    className={`
+                        ${
+                            currentPage === totalPages || isLoadingData
                             ? "cursor-not-allowed"
                             : "cursor-pointer hover:bg-gray-200"
-                    } ml-2 p-2 rounded-sm transition-all duration-300 select-none`}
-                    onClick={async () => {
-                        if (page < totalPages) await handlePageChange(page + 1);
+                        }
+                        ml-2 p-2 rounded-sm transition-all duration-300 select-none
+                    `}
+                    onClick={() => {
+                        if (!isLoadingData && currentPage < totalPages) {
+                            handlePageChange(currentPage + 1)
+                        };
                     }}
                 >
-                    siguiente
+                    <button disabled={isLoadingData}>
+                        siguiente
+                    </button>
                 </PaginationItem>
             </PaginationContent>
         </Pagination>

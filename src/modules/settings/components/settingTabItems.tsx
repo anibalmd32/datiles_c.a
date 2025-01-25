@@ -35,49 +35,49 @@ const TabContentWrapper = ({
     )
 }
 
-const TabContentFallback = () => <Skeleton className='md:max-w-xl h-full' />
+const TabContentFallback = () => <Skeleton className='md:max-w-xl h-[400px]' />
 
 export const settingTabItems: DynamicTabItems[] = [
     {
         label: 'Categorías',
         value: 'categories',
         element: (
-            <Suspense fallback={<TabContentFallback />}>
-                <TabContentWrapper
-                    title="Lista de categorías"
-                    description="Categorías que se le asignan a un producto para un mejor control"
-                >
+            <TabContentWrapper
+                title="Lista de categorías"
+                description="Categorías que se le asignan a un producto para un mejor control"
+            >
+                <Suspense fallback={<TabContentFallback />}>
                     <CategoriesTab />
-                </TabContentWrapper>
-            </Suspense>
+                </Suspense>
+            </TabContentWrapper>
         )
     },
     {
         label: 'Métodos de pago',
         value: 'payment_methods',
         element: (
-            <Suspense fallback={<TabContentFallback />}>
-                <TabContentWrapper
-                    title="Métodos de pago"
-                    description="Métodos o medios mediante los cuales sus clientes pueden pagar al comprar sus productos"
-                >
+            <TabContentWrapper
+                title="Métodos de pago"
+                description="Métodos o medios mediante los cuales sus clientes pueden pagar al comprar sus productos"
+            >
+                <Suspense fallback={<TabContentFallback />}>
                     <PaymentMethodsTab />
-                </TabContentWrapper>
-            </Suspense>
+                </Suspense>
+            </TabContentWrapper>
         )
     },
     {
         label: 'Medidas',
         value: 'measurements',
         element: (
-            <Suspense fallback={<TabContentFallback />}>
-                <TabContentWrapper
-                    title="Unidades de medida"
-                    description="Medidas para determinar la cantidad de sus productos"
-                >
+            <TabContentWrapper
+                title="Unidades de medida"
+                description="Medidas para determinar la cantidad de sus productos"
+            >
+                <Suspense fallback={<TabContentFallback />}>
                     <MeasurementTab />
-                </TabContentWrapper>
-            </Suspense>
+                </Suspense>
+            </TabContentWrapper>
         )
     }
 ]

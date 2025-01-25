@@ -1,18 +1,29 @@
-import { create } from 'zustand'
-import { Category, SharedDataProp } from '@/definitions/data'
+// Zustand imports
+import { create, StateCreator } from 'zustand'
+import { subscribeWithSelector } from 'zustand/middleware'
+
+// Data Definitions
+import { CategoryData, Category } from '@/definitions/data'
+
+// Async Slices
 import { AsyncSlice } from '@/lib/asyncSlices'
 import { loadCategoriesSlice } from './categorySlices/loadCategoriesSlice'
 import { deleteCategorySlice } from './categorySlices/deleteCategorySlice'
 import { updateCategorySlice } from './categorySlices/updateCategorySlice'
 import { addCategorySlice } from './categorySlices/addCategorySlice'
-import { FilterState, PaginationState } from '@/definitions/helpers'
 
+// Utilities slices
+import { createPaginationSlice, PaginationState } from "@/lib/paginationSlice";
+import { createFilterSlice, FilterState } from '@/lib/filtersSlice'
+
+// Base Data State Definition
 export type CategoriesBaseState = {
-    categories: Array<Category & SharedDataProp>;
+    categories: Array<CategoryData>;
     pagination: PaginationState;
     filters: FilterState
 }
 
+// Async Slices Schema definition
 type CategoryAsyncSlices = {
     loadCategories: AsyncSlice<Category[]>;
     addCategory: AsyncSlice<Category>;
@@ -20,50 +31,52 @@ type CategoryAsyncSlices = {
     deleteCategory: AsyncSlice<Category>;
 }
 
-export const useCategoriesStore = create<
-CategoriesBaseState & CategoryAsyncSlices
->()((...a) => ({
+// Create state with base state and async slices combined
+const combinedStore: StateCreator<
+    CategoriesBaseState & CategoryAsyncSlices
+> = (...args) => ({
     categories: [],
-    pagination: {
-        currentPage: 1,
-        pageSize: 5,
-        totalPages: 0,
-        setCurrentPage: (page) => {
-            const [set] = a
-            set((prev) => ({
-                ...prev,
-                pagination: {
-                    ...prev.pagination,
-                    currentPage: page
-                }
-            }))
-        },
-        setPageSize: (size) => {
-            const [set] = a
-            set((prev) => ({
-                ...prev,
-                pagination: {
-                    ...prev.pagination,
-                    pageSize: size
-                }
-            }))
+    ...createFilterSlice()(...args),
+    ...createPaginationSlice()(...args),
+    addCategory: addCategorySlice(...args),
+    deleteCategory: deleteCategorySlice(...args),
+    loadCategories: loadCategoriesSlice(...args),
+    updateCategory: updateCategorySlice(...args),
+});
+
+// Create Store with a middleware for select and subscribe to store prop
+export const useCategoriesStore = create<
+    CategoriesBaseState & CategoryAsyncSlices
+>()(
+    subscribeWithSelector(combinedStore)
+);
+
+// Reload data when the page change
+useCategoriesStore.subscribe(
+    (state) => state.pagination.currentPage,
+    () => {
+        const state = useCategoriesStore.getState()
+        state.loadCategories.run()
+    }
+)
+
+// Reload data when type a search value
+useCategoriesStore.subscribe(
+    (state) => state.filters.search,
+    (newSearch, prevSearch) => {
+        const state = useCategoriesStore.getState()
+
+        // Start search
+        if (newSearch.trim() && !prevSearch.trim()) {
+            state.pagination.prevPage = state.pagination.currentPage
+            state.pagination.setCurrentPage(1)
         }
-    },
-    filters: {
-        search: '',
-        setSearch: (value) => {
-            const [set] = a
-            set((prev) => ({
-                ...prev,
-                filters: {
-                    ...prev.filters,
-                    search: value
-                }
-            }))
+
+        // Input search cleared
+        if (!newSearch.trim() && prevSearch.trim()) {
+            state.pagination.setCurrentPage(state.pagination.prevPage)
         }
-    },
-    addCategory: addCategorySlice(...a),
-    deleteCategory: deleteCategorySlice(...a),
-    loadCategories: loadCategoriesSlice(...a),
-    updateCategory: updateCategorySlice(...a)
-}))
+
+        state.loadCategories.run()
+    }
+)

@@ -4,7 +4,7 @@ import { Category, SharedDataProp } from "@/definitions/data";
 import Database from '@tauri-apps/plugin-sql'
 
 export const loadCategoriesSlice = createAsyncSlice<CategoriesBaseState, Category[]>({
-    execute: async ({ get, set }) => {
+    execute: async ({ get, set }) => {        
         const db = await Database.load('sqlite:datiles.db')
         const paginationState = get().pagination
         const filtersBaseState = get().filters;

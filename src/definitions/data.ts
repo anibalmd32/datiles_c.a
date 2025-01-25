@@ -59,3 +59,13 @@ export type InvoiceItem = {
     invoice_id: number;
     sale_id: number;
 }
+
+export type CategoryData = Category & SharedDataProp
+export type UserData = User & SharedDataProp
+export type MeasurementUnitData = MeasurementUnit & SharedDataProp
+export type ProductData = Product & SharedDataProp
+export type PaymentMethodData = PaymentMethod & SharedDataProp
+export type InvoiceStatusData = InvoiceStatus & SharedDataProp
+export type InvoiceData = Invoice & SharedDataProp
+export type SaleData = Sale & SharedDataProp
+export type InvoiceItemData = InvoiceItem & SharedDataProp

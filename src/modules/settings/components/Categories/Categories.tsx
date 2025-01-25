@@ -50,7 +50,6 @@ export default function CategoriesTab() {
                         value={filters.search}
                         onExternalChange={async (e) => {
                             filters.setSearch(e.target.value)
-                            await loadCategories.run()
                         }}
                     />
                 </div>
@@ -104,11 +103,11 @@ export default function CategoriesTab() {
                 />
                 <DataPagination
                     currentPage={pagination.currentPage}
-                    onPageChange={async (page) => {
+                    onPageChange={(page) => {
                         pagination.setCurrentPage(page)
-                        await loadCategories.run()
                     }}
                     totalPages={pagination.totalPages}
+                    isLoadingData={loadCategories.isLoading}
                 />
             </div>
             <Modal
