@@ -5,9 +5,10 @@ import { useEffect } from 'react'
 import { PaymentMethodsTable } from './Table/PaymentMethodTable'
 import { AddPaymentMethodForm } from './Form/AddForm/AddForm'
 import { EditPaymentMethodForm } from './Form/EditForm/EditForm'
+import { DataPagination } from '@/components/shared/DataTable/DataPagination'
 
 export default function PaymentMethodsTab() {
-    const { loadPaymentMethods } = usePaymentMethodsStore()
+    const { loadPaymentMethods, pagination } = usePaymentMethodsStore()
 
     useEffect(() => {
         loadPaymentMethods.run()
@@ -31,6 +32,14 @@ export default function PaymentMethodsTab() {
                     </div>
                     <div>
                         <PaymentMethodsTable />
+                        <DataPagination
+                            currentPage={pagination.currentPage}
+                            onPageChange={async (page) => {
+                                pagination.setCurrentPage(page)
+                                await loadPaymentMethods.run()
+                            }}
+                            totalPages={pagination.totalPages}
+                        />
                     </div>
 
                 </Card.CardContent>
