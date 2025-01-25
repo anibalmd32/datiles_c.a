@@ -10,7 +10,12 @@ type Data = PaymentMethod & SharedDataProp
 
 export const usePaymentMethodsTable = () => {
     const { toast } = useToast()
-    const { paymentMethods, changePaymentMethodStatus, loadPaymentMethods } = usePaymentMethodsStore()
+    const {
+        paymentMethods,
+        changePaymentMethodStatus,
+        loadPaymentMethods,
+        deletePaymentMethod
+    } = usePaymentMethodsStore()
     const { handleOpenForm } = useUpdatePaymentMethodContext()
 
     const handleChangePaymentMethodStatus = async (
@@ -35,7 +40,20 @@ export const usePaymentMethodsTable = () => {
     const handleEdit = async (row: Data) => {
         handleOpenForm(row)
     }
-    const handleDelete = async () => {}
+    const handleDelete = async (row: Data) => {
+        await deletePaymentMethod.run({
+            onSuccess: async (res) => {
+                if (res?.paymentMethodId && res.paymentMethodId === row.id) {
+                    toast({ title: 'Método de pago eliminado exitosamente' })
+                    await loadPaymentMethods.run()
+                }
+            },
+            onError: (err) => {
+                console.log('Error', err)
+                toast({ title: 'Error al eliminar método de pago', description: err, variant: 'destructive' })
+            }
+        }, { paymentMethodId: row.id })
+    }
 
     return {
         cols: paymentMethodCols,

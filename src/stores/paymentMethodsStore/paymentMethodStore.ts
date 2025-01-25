@@ -6,6 +6,7 @@ import { loadPaymentMethodsSlice } from "./paymentMethodsSlices/loadPaymentMetho
 import { changePaymentMethodStatusSlice } from "./paymentMethodsSlices/changeStatusSlice";
 import { addPaymentMethodSlice } from "./paymentMethodsSlices/addPaymentMethodSlice";
 import { editPaymentMethodSlice } from "./paymentMethodsSlices/editPaymentMethod";
+import { deletePaymentMethodSlice } from "./paymentMethodsSlices/deletePaymentMethodSlice";
 
 export type PaymentMethodsBaseState = {
     paymentMethods: Array<PaymentMethod & SharedDataProp>;
@@ -18,6 +19,7 @@ type PaymentMethodsSlices = {
     changePaymentMethodStatus: AsyncSlice<{ id: number, status: boolean }>;
     addPaymentMethod: AsyncSlice<PaymentMethod>;
     editPaymentMethod: AsyncSlice<PaymentMethod & SharedDataProp>;
+    deletePaymentMethod: AsyncSlice<{ paymentMethodId: number }>
 }
 
 export const usePaymentMethodsStore = create<
@@ -66,4 +68,5 @@ export const usePaymentMethodsStore = create<
     changePaymentMethodStatus: changePaymentMethodStatusSlice(...a),
     addPaymentMethod: addPaymentMethodSlice(...a),
     editPaymentMethod: editPaymentMethodSlice(...a),
+    deletePaymentMethod: deletePaymentMethodSlice(...a)
 }))
