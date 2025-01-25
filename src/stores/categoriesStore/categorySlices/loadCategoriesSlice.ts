@@ -1,13 +1,12 @@
 import { createAsyncSlice } from "@/lib/asyncSlices";
 import { CategoriesBaseState } from "../categoriesStore";
 import { Category, SharedDataProp } from "@/definitions/data";
-import { PaginatedData } from "@/definitions/helpers";
 import Database from '@tauri-apps/plugin-sql'
 
-export const loadCategoriesSlice = createAsyncSlice<CategoriesBaseState, PaginatedData<Category[]>>({
+export const loadCategoriesSlice = createAsyncSlice<CategoriesBaseState, Category[]>({
     execute: async ({ get, set }) => {
         const db = await Database.load('sqlite:datiles.db')
-        const baseState = get().categories;
+        const paginationState = get().pagination
         const filtersBaseState = get().filters;
 
         let countSql = `
@@ -23,12 +22,12 @@ export const loadCategoriesSlice = createAsyncSlice<CategoriesBaseState, Paginat
             LIMIT ? OFFSET ?;
         `
         let selectParams: Array<string | number> = [
-            baseState.pageSize,
-            (baseState.currentPage - 1) * baseState.pageSize
+            paginationState.pageSize,
+            (paginationState.currentPage - 1) * paginationState.pageSize
         ]
 
-        if (filtersBaseState.searchValue?.trim()) {
-            const searchValue = filtersBaseState.searchValue.replace(/[%_]/g, "\\$&");
+        if (filtersBaseState.search?.trim()) {
+            const searchValue = filtersBaseState.search.replace(/[%_]/g, "\\$&");
 
             countSql = `
                 SELECT COUNT(*) AS total
@@ -46,8 +45,8 @@ export const loadCategoriesSlice = createAsyncSlice<CategoriesBaseState, Paginat
             `
             selectParams = [
                 searchValue,
-                baseState.pageSize,
-                (baseState.currentPage - 1) * baseState.pageSize
+                paginationState.pageSize,
+                (paginationState.currentPage - 1) * paginationState.pageSize
             ]
         }
 
@@ -56,19 +55,19 @@ export const loadCategoriesSlice = createAsyncSlice<CategoriesBaseState, Paginat
             countParams
         )
 
-        const totalCategoryPages = Math.ceil(totalCategoryStoredRows.total / baseState.pageSize);
+        const totalPages = Math.ceil(totalCategoryStoredRows.total / paginationState.pageSize);
 
-        const paginatedCategories = await db.select<Array<Category & SharedDataProp>>(
+        const paginatedData = await db.select<Array<Category & SharedDataProp>>(
             selectSql,
             selectParams
         )
 
         set((prev) => ({
             ...prev,
-            categories: {
-                ...prev.categories,
-                data: [...paginatedCategories],
-                totalPages: totalCategoryPages,
+            categories: [...paginatedData],
+            pagination: {
+                ...prev.pagination,
+                totalPages
             }
         }))
     }

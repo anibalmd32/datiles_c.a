@@ -5,19 +5,16 @@ import { loadCategoriesSlice } from './categorySlices/loadCategoriesSlice'
 import { deleteCategorySlice } from './categorySlices/deleteCategorySlice'
 import { updateCategorySlice } from './categorySlices/updateCategorySlice'
 import { addCategorySlice } from './categorySlices/addCategorySlice'
-import { PaginatedData } from '@/definitions/helpers'
+import { FilterState, PaginationState } from '@/definitions/helpers'
 
 export type CategoriesBaseState = {
-    categories: PaginatedData<Array<Category & SharedDataProp>>;
-    setCurrentPage: (page: number) => void;
-    filters: {
-        searchValue: string | null;
-        setSearchValue: (value: string) => void;
-    }
+    categories: Array<Category & SharedDataProp>;
+    pagination: PaginationState;
+    filters: FilterState
 }
 
 type CategoryAsyncSlices = {
-    loadCategories: AsyncSlice<PaginatedData<Category[]>>;
+    loadCategories: AsyncSlice<Category[]>;
     addCategory: AsyncSlice<Category>;
     updateCategory: AsyncSlice<Category>;
     deleteCategory: AsyncSlice<Category>;
@@ -26,35 +23,41 @@ type CategoryAsyncSlices = {
 export const useCategoriesStore = create<
 CategoriesBaseState & CategoryAsyncSlices
 >()((...a) => ({
-    categories: {
+    categories: [],
+    pagination: {
         currentPage: 1,
-        data: [],
         pageSize: 5,
-        totalPages: 0
-    },
-    setCurrentPage: (page) => {
-        const [set, get] = a
-        const baseState = get().categories
-
-        set((prev) => ({
-            ...prev,
-            categories: {
-                ...baseState,
-                currentPage: page
-            }
-        }))
+        totalPages: 0,
+        setCurrentPage: (page) => {
+            const [set] = a
+            set((prev) => ({
+                ...prev,
+                pagination: {
+                    ...prev.pagination,
+                    currentPage: page
+                }
+            }))
+        },
+        setPageSize: (size) => {
+            const [set] = a
+            set((prev) => ({
+                ...prev,
+                pagination: {
+                    ...prev.pagination,
+                    pageSize: size
+                }
+            }))
+        }
     },
     filters: {
-        searchValue: null,
-        setSearchValue: (value) => {
-            const [set, get] = a;
-            const filtersBaseState = get().filters
-
+        search: '',
+        setSearch: (value) => {
+            const [set] = a
             set((prev) => ({
                 ...prev,
                 filters: {
-                    ...filtersBaseState,
-                    searchValue: value
+                    ...prev.filters,
+                    search: value
                 }
             }))
         }
