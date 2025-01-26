@@ -2,10 +2,14 @@ import React, { ReactNode, Suspense } from "react"
 import * as Card from '@/components/ui/card'
 import { Skeleton } from "@/components/ui/skeleton"
 import { DynamicTabItems } from "@/components/shared/DynamicTabs/DynamicTabs"
+
+// Providers
 import { CategoriesProvider } from "../Providers/CategoriesProvider"
+import { PaymentMethodsProvider } from "../Providers/PaymentMethodsProvider"
 
 // Lazy components
 const CategoriesTab = React.lazy(() => import("../views/categories"))
+const PaymentMethodsTab = React.lazy(() => import("../views/paymentMethods"))
 
 const TabContentWrapper = ({
     children,
@@ -53,20 +57,22 @@ export const settingTabItems: DynamicTabItems[] = [
             </TabContentWrapper>
         )
     },
-    // {
-    //     label: 'Métodos de pago',
-    //     value: 'payment_methods',
-    //     element: (
-    //         <TabContentWrapper
-    //             title="Métodos de pago"
-    //             description="Métodos o medios mediante los cuales sus clientes pueden pagar al comprar sus productos"
-    //         >
-    //             <Suspense fallback={<TabContentFallback />}>
-    //                 <PaymentMethodsTab />
-    //             </Suspense>
-    //         </TabContentWrapper>
-    //     )
-    // },
+    {
+        label: 'Métodos de pago',
+        value: 'payment_methods',
+        element: (
+            <TabContentWrapper
+                title="Métodos de pago"
+                description="Métodos o medios mediante los cuales sus clientes pueden pagar al comprar sus productos"
+            >
+                <Suspense fallback={<TabContentFallback />}>
+                    <PaymentMethodsProvider>
+                        <PaymentMethodsTab />
+                    </PaymentMethodsProvider>
+                </Suspense>
+            </TabContentWrapper>
+        )
+    },
     // {
     //     label: 'Medidas',
     //     value: 'measurements',
