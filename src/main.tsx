@@ -10,8 +10,14 @@ import { PublicLayout } from "./layouts/PublicLayout";
 // Public
 import { IndexPublic } from "./modules/public/views";
 
+// Home
+import { IndexHome } from "./modules/home/views";
+
 // Sales
 import { IndexSales } from "./modules/sales/views";
+
+// Products
+import { IndexProducts } from "./modules/products/views";
 
 // Settings
 import { IndexSettings } from "./modules/settings/views";
@@ -26,12 +32,13 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
       </Route>
       <Route element={<AppLayout />}>
         <Route path="/app">
+          <Route index element={<IndexHome />} />
           <Route path="sales">
             <Route index element={<IndexSales />} />
           </Route>
 
           <Route path="products">
-
+            <Route index element={<IndexProducts />} />
           </Route>
 
           <Route path="settings">
