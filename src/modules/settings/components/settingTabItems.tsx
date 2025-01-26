@@ -6,10 +6,12 @@ import { DynamicTabItems } from "@/components/shared/DynamicTabs/DynamicTabs"
 // Providers
 import { CategoriesProvider } from "../Providers/CategoriesProvider"
 import { PaymentMethodsProvider } from "../Providers/PaymentMethodsProvider"
+import { MeasurementsProvider } from "../Providers/MeasurementsProvider"
 
 // Lazy components
 const CategoriesTab = React.lazy(() => import("../views/categories"))
 const PaymentMethodsTab = React.lazy(() => import("../views/paymentMethods"))
+const MeasurementsTab = React.lazy(() => import("../views/measurements"))
 
 const TabContentWrapper = ({
     children,
@@ -74,20 +76,22 @@ export const SettingTabItems = () => {
                 </TabContentWrapper>
             )
         },
-        // {
-        //     label: 'Medidas',
-        //     value: 'measurements',
-        //     element: (
-        //         <TabContentWrapper
-        //             title="Unidades de medida"
-        //             description="Medidas para determinar la cantidad de sus productos"
-        //         >
-        //             <Suspense fallback={<TabContentFallback />}>
-        //                 <MeasurementTab />
-        //             </Suspense>
-        //         </TabContentWrapper>
-        //     )
-        // }
+        {
+            label: 'Medidas',
+            value: 'measurements',
+            element: (
+                <TabContentWrapper
+                    title="Unidades de medida"
+                    description="Medidas para determinar la cantidad de sus productos"
+                >
+                    <Suspense fallback={<TabContentFallback />}>
+                        <MeasurementsProvider>
+                            <MeasurementsTab />
+                        </MeasurementsProvider>
+                    </Suspense>
+                </TabContentWrapper>
+            )
+        }
     ] as DynamicTabItems[]
     
 } 
