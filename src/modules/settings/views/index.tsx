@@ -2,7 +2,7 @@ import { ViewContainer } from "@/components/shared/ViewMisc/ViewContainer"
 import { ViewTitle } from "@/components/shared/ViewMisc/ViewTitle"
 import { Separator } from "@/components/ui/separator"
 import { DynamicTabs } from "@/components/shared/DynamicTabs/DynamicTabs"
-import { settingTabItems } from "../components/SettingTabItems"
+import { SettingTabItems } from "../components/SettingTabItems"
 
 export function IndexSettings() {
     return (
@@ -11,7 +11,7 @@ export function IndexSettings() {
 
             <Separator />
 
-            <DynamicTabs items={settingTabItems} />
+            <DynamicTabs items={SettingTabItems()} />
         </ViewContainer>
     )
 }
