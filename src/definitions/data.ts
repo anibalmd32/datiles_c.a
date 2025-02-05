@@ -20,14 +20,20 @@ export type MeasurementUnit = {
 
 export type Product = {
     name: string;
-    code: string;
     purchase_usd: string;
     sale_usd: string;
     purchase_bs: string;
-    sale_bs: string;
-    category_id: number | null;
     quantity: number;
+    iva: string;
+    revenue_usd: string;
+    category_id: number | null;
     unit_id: number | null;
+    code: string | null;
+}
+
+export type ProductDynamicValues = {
+    sale_bs: string;
+    revenue_bs: string;
 }
 
 export type PaymentMethod = {
@@ -63,7 +69,7 @@ export type InvoiceItem = {
 export type CategoryData = Category & SharedDataProp
 export type UserData = User & SharedDataProp
 export type MeasurementUnitData = MeasurementUnit & SharedDataProp
-export type ProductData = Product & SharedDataProp
+export type ProductData = Product & SharedDataProp & { unit: string, category: string }
 export type PaymentMethodData = PaymentMethod & SharedDataProp
 export type InvoiceStatusData = InvoiceStatus & SharedDataProp
 export type InvoiceData = Invoice & SharedDataProp

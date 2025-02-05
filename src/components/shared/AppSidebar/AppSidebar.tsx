@@ -1,5 +1,6 @@
 import { DollarSign, LucideBox, Settings } from "lucide-react"
 import { NavLink } from 'react-router'
+import { useDolarStore } from "@/hooks/us-dolar-store"
 
 import {
   Sidebar,
@@ -32,12 +33,16 @@ const items = [
 ]
 
 export function AppSidebar() {
+  const dolarPrice = useDolarStore(store => store.dolarPrice);
+
   return (
     <Sidebar>
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel className="text-xl font-bold mb-4">DATILES.CA</SidebarGroupLabel>
-          <SidebarGroupContent>
+        <SidebarGroup className="h-full">
+          <SidebarGroupLabel className="text-xl font-bold mb-4">
+            DATILES C.A.
+          </SidebarGroupLabel>
+          <SidebarGroupContent className="flex flex-col justify-between h-full">
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
@@ -50,6 +55,14 @@ export function AppSidebar() {
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
+
+            <div>
+              {dolarPrice && (
+                <p className="text-center font-bold text-xl">
+                  $1 = Bs. {dolarPrice}
+                </p>
+              )}
+            </div>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>

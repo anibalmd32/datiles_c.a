@@ -5,9 +5,11 @@ import { AppSidebar } from "@/components/shared/AppSidebar/AppSidebar"
 import { useEffect } from "react";
 import { databaseSeeder } from "@/seeder";
 import { useToast } from "@/hooks/use-toast"
+import { useDolarStore } from "@/hooks/us-dolar-store";
 
 export function AppLayout() {
   const { toast } = useToast()
+  const getDolarPrice = useDolarStore(store => store.getDolarPrice)
 
   useEffect(() => {
       const disableContextMenu = (event: any) => {
@@ -39,6 +41,10 @@ export function AppLayout() {
           variant: 'destructive',
         })
       })
+  }, [])
+
+  useEffect(() => {
+    getDolarPrice();
   }, [])
   
   return (

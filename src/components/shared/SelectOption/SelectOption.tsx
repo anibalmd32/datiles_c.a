@@ -5,6 +5,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import { useEffect, useState } from "react";
 
 export type SelectOptionItem = {
     value: string;
@@ -18,15 +19,30 @@ interface Props {
 }
 
 export function SelectOptions(props: Props) {
+    const [defaultValue, setDefaultValue] = useState(' ')
+
+    const { onExternalChange, options, placeholder } = props
+
+    useEffect(() => {
+        if (options.length > 0) {
+            setDefaultValue(options[0].value)
+        }
+    }, [options])
+
     return (
-        <Select onValueChange={props.onExternalChange} defaultValue={props.options[0].value}>
+        <Select
+            onValueChange={onExternalChange}
+            defaultValue={defaultValue}
+        >
             <SelectTrigger>
-                <SelectValue placeholder={props.placeholder} />
+                <SelectValue placeholder={placeholder} />
             </SelectTrigger>
             <SelectContent>
-                {props.options.map(option => {
+                {options.length > 0 && options.map((option, i) => {
                     return (
-                        <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>
+                        <SelectItem key={i} value={option.value}>
+                            {option.label}
+                        </SelectItem>
                     )
                 })}
             </SelectContent>

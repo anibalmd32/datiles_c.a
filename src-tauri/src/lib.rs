@@ -39,6 +39,18 @@ pub fn run() {
             sql: include_str!("../migrations/06_product_iva.sql"),
             kind: MigrationKind::Up,
         },
+        Migration {
+            version: 7,
+            description: "product_revenue",
+            sql: include_str!("../migrations/07_product_revenue.sql"),
+            kind: MigrationKind::Up,
+        },
+        Migration {
+            version: 8,
+            description: "clear_products_table",
+            sql: include_str!("../migrations/08_clear_products_table.sql"),
+            kind: MigrationKind::Up,
+        },
     ];
     tauri::Builder::default()
         .plugin(

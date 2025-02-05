@@ -18,6 +18,7 @@ import { IndexSales } from "./modules/sales/views";
 
 // Products
 import { IndexProducts } from "./modules/products/views";
+import { CreateProduct } from "./modules/products/views/create";
 
 // Settings
 import { IndexSettings } from "./modules/settings/views";
@@ -39,6 +40,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 
           <Route path="products">
             <Route index element={<IndexProducts />} />
+            <Route path="create" element={<CreateProduct />} />
           </Route>
 
           <Route path="settings">
