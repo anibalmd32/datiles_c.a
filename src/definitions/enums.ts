@@ -13,5 +13,9 @@ export enum TABLES {
     PAYMENT_METHODS = 'payment_methods',
     PRODUCTS = 'products',
     SALES = 'sales',
-    USERS = 'users'
+    USERS = 'users',
+    STOCK_MODE = 'stock_mode',
+    STOCK = 'stock',
+    SHOPPING_LIST_ITEMS = 'shopping_list_items',
+    TEMPORAL_INVENTORY = 'temporal_inventory',
 }
