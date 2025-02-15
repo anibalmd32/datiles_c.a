@@ -1,9 +1,10 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { AsyncAction } from "@/hooks/useAsyncExecute";
-import { usePaymentMethodsActions, usePaymentMethodsStore } from "../stores/paymentMethodsStore";
+import { usePaymentMethodsStore } from "../stores/paymentMethodsStore";
 import { PaymentMethod, PaymentMethodData } from "@/definitions/data";
 import { FilterState } from "@/lib/filtersSlice";
 import { PaginationState } from "@/lib/paginationSlice";
+import { usePaymentMethodsActions } from "../actions/paymentMethodActions";
 
 const PaymentMethodsCtx = createContext({} as {
     paymentMethods: PaymentMethodData[];

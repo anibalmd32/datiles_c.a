@@ -3,7 +3,7 @@ import { ProductFormType, productSchema } from "../schemas/productSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAlert } from "@/hooks/useAlert";
 import { useCategoryActions } from '@/modules/settings/stores/categoriesStore';
-import { useMeasurementsActions } from '@/modules/settings/stores/measurementsStore';
+import { useMeasurementsActions } from "@/modules/settings/actions/measurementActions";
 import { useEffect } from "react";
 import { useProductsActions } from "../stores/productsStore";
 
