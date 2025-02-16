@@ -12,6 +12,7 @@ import { MeasurementsProvider } from "../Providers/MeasurementsProvider"
 const CategoriesTab = React.lazy(() => import("../views/categories"))
 const PaymentMethodsTab = React.lazy(() => import("../views/paymentMethods"))
 const MeasurementsTab = React.lazy(() => import("../views/measurements"))
+const StockMode = React.lazy(() => import("../views/stockMode"))
 
 const TabContentWrapper = ({
     children,
@@ -66,12 +67,28 @@ export const SettingTabItems = () => {
             element: (
                 <TabContentWrapper
                     title="Métodos de pago"
-                    description="Métodos o medios mediante los cuales sus clientes pueden pagar al comprar sus productos"
+                    description="Medios mediante los cuales sus clientes pueden pagar al comprar sus productos"
                 >
                     <Suspense fallback={<TabContentFallback />}>
                         <PaymentMethodsProvider>
                             <PaymentMethodsTab />
                         </PaymentMethodsProvider>
+                    </Suspense>
+                </TabContentWrapper>
+            )
+        },
+        {
+            label: 'Modos de almacenamiento',
+            value: 'stock_modes',
+            element: (
+                <TabContentWrapper
+                    title="Modos de almacenamiento"
+                    description="Modos en los que sus productos se almacenaran en su inventario"
+                >
+                    <Suspense fallback={<TabContentFallback />}>
+                        <MeasurementsProvider>
+                            <StockMode />
+                        </MeasurementsProvider>
                     </Suspense>
                 </TabContentWrapper>
             )

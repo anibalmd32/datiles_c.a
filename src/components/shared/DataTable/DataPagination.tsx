@@ -50,21 +50,20 @@ export function DataPagination({
         <Pagination>
             <PaginationContent>
                 <PaginationItem
-                    className={`
-                        ${
-                            currentPage === 1 || isLoadingData
-                            ? "cursor-not-allowed"
-                            : "cursor-pointer hover:bg-gray-200"
-                        }
-                        mr-2 p-2 rounded-sm transition-all duration-300 select-none
-                    `}
                     onClick={() => {
                         if (!isLoadingData && currentPage > 1) {
                             handlePageChange(currentPage - 1)
                         };
                     }}
                 >
-                    <button disabled={isLoadingData}>
+                    <button disabled={isLoadingData} className={`
+                        mr-2 p-2 rounded-sm transition-all duration-300 select-none
+                        ${
+                            currentPage === 1 || isLoadingData
+                            ? "cursor-not-allowed"
+                            : "cursor-pointer hover:bg-gray-100"
+                        }  
+                    `}>
                         atrás
                     </button>
                 </PaginationItem>
@@ -116,21 +115,24 @@ export function DataPagination({
                 )}
 
                 <PaginationItem
-                    className={`
-                        ${
-                            currentPage === totalPages || isLoadingData
-                            ? "cursor-not-allowed"
-                            : "cursor-pointer hover:bg-gray-200"
-                        }
-                        ml-2 p-2 rounded-sm transition-all duration-300 select-none
-                    `}
+                    
                     onClick={() => {
                         if (!isLoadingData && currentPage < totalPages) {
                             handlePageChange(currentPage + 1)
                         };
                     }}
                 >
-                    <button disabled={isLoadingData}>
+                    <button
+                        disabled={isLoadingData}
+                        className={`
+                            ${
+                                currentPage === totalPages || isLoadingData
+                                ? "cursor-not-allowed"
+                                : "cursor-pointer hover:bg-gray-100"
+                            }
+                            ml-2 p-2 rounded-sm transition-all duration-300 select-none
+                        `}
+                    >
                         siguiente
                     </button>
                 </PaginationItem>

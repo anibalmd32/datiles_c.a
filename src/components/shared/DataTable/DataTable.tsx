@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/table"
 import React from "react";
 import { BadgeX } from 'lucide-react'
-// import { LoaderSpinner } from "../LoaderSpinner/LoaderSpinner";
+import { LoaderSpinner } from "../LoaderSpinner/LoaderSpinner";
 import {
     ContextMenu,
     ContextMenuContent,
@@ -59,7 +59,7 @@ export function DataTable<T>({ cols, rows, loading, contextMenuItems }: Props<T>
                     </TableRow>
                 </TableHeader>
                 <TableBody className="relative">
-                    {/* {loading && (
+                    {loading && (
                         <TableRow className="absolute left-0 right-0 top-0 bottom-0 w-full">
                             <TableCell colSpan={cols.length}>
                                 <div className="m-auto bg-gray-100 bg-transparent animate-pulse flex justify-center gap-2 items-center absolute left-0 right-0 top-0 bottom-0 w-full">
@@ -67,7 +67,7 @@ export function DataTable<T>({ cols, rows, loading, contextMenuItems }: Props<T>
                                 </div>
                             </TableCell>
                         </TableRow>
-                    )} */}
+                    )}
                     {rows.length === 0 && !loading && (
                         <TableRow>
                             <TableCell colSpan={cols.length} className="text-md">

@@ -1,6 +1,6 @@
 import { AddCategoryForm, EditCategoryForm } from "../components/categories/forms";
 import { SearchCategoriesFilter } from "../components/categories/filters";
-import { CategoriesDataTable } from "../components/categories/table";
+import { CategoriesDataList } from "../components/categories/list";
 import { CategoriesPagination } from "../components/categories/pagination";
 
 export default function CategoriesTab() {
@@ -10,8 +10,8 @@ export default function CategoriesTab() {
                 <SearchCategoriesFilter />
                 <AddCategoryForm />
             </div>
-            <div className="w-full flex flex-col justify-between gap-2 min-h-[500px]">
-                <CategoriesDataTable />
+            <div className="w-full flex flex-col justify-between gap-2 min-h-[420px]">
+                <CategoriesDataList />
                 <CategoriesPagination />
             </div>
 

@@ -1,11 +1,8 @@
 import { usePaymentMethods } from "../Providers/PaymentMethodsProvider";
 import { PaymentMethodData } from "@/definitions/data";
-import { paymentMethodsCols } from "../utils/cols/paymentMethodsCols";
-import { paymentMethodMenu } from "../utils/menus/paymentMethodsTableMenu";
-import { paymentMethodsTableRows } from "../utils/rows/paymentMethodsRows";
 import { useAlert } from "@/hooks/useAlert";
 
-export const usePaymentMethodsTable = () => {
+export const usePaymentMethodsList = () => {
     const {
         emitErrorAlert,
         emitSuccessAlert,
@@ -13,9 +10,7 @@ export const usePaymentMethodsTable = () => {
     const {
         deletePaymentMethod,
         handleOpenEditForm,
-        paymentMethods,
         updateStatus,
-        loadPaymentMethods
     } = usePaymentMethods()
 
     const editAction = (row: PaymentMethodData) => {
@@ -44,17 +39,10 @@ export const usePaymentMethodsTable = () => {
         }, { id, status })
     }
 
-    const cols = paymentMethodsCols
-    const rows = paymentMethodsTableRows(
-        paymentMethods,
-        { change: handleActivePaymentMethod },
-    )
-    const menu = paymentMethodMenu({ editAction, deleteAction })
 
     return {
-        cols,
-        rows,
-        menu,
-        loadingData: loadPaymentMethods.loading
+        editAction,
+        deleteAction,
+        handleActivePaymentMethod
     }
 }

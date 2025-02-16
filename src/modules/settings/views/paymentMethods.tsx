@@ -1,6 +1,6 @@
 import { AddPaymentMethodForm, EditPaymentMethodForm } from "../components/paymentMethods/forms";
 import { SearchPaymentMethodsFilter } from "../components/paymentMethods/filters";
-import { PaymentMethodsDataTable } from "../components/paymentMethods/table";
+import { PaymentMethodsDataList } from "../components/paymentMethods/list";
 import { PaymentMethodsPagination } from "../components/paymentMethods/pagination";
 
 export default function PaymentMethodsTab() {
@@ -10,8 +10,8 @@ export default function PaymentMethodsTab() {
                 <SearchPaymentMethodsFilter />
                 <AddPaymentMethodForm />
             </div>
-            <div className="w-full flex flex-col justify-between gap-2 min-h-[500px]">
-                <PaymentMethodsDataTable />
+            <div className="w-full flex flex-col justify-between gap-2 min-h-[420px]">
+                <PaymentMethodsDataList />
                 <PaymentMethodsPagination />
             </div>
 
