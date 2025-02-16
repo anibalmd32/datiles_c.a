@@ -5,41 +5,52 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 import React from "react";
-import { BadgeX } from 'lucide-react'
+import { BadgeX } from "lucide-react";
 import { LoaderSpinner } from "../LoaderSpinner/LoaderSpinner";
 import {
     ContextMenu,
     ContextMenuContent,
     ContextMenuItem,
     ContextMenuTrigger,
-} from "@/components/ui/context-menu"
+} from "@/components/ui/context-menu";
 
 export type DataTableRow<T> = {
+  field: T;
+  render: ({
+      field,
+      colName,
+  }: {
     field: T;
-    render: ({ field, colName }: { field: T; colName: keyof T }) => React.ReactNode;
-}
+    colName: keyof T;
+  }) => React.ReactNode;
+};
 
 export type DataTableCol<T> = {
-    position: 'center' | 'start' | 'end';
-    name: keyof T;
-    label: string;
-}
+  position: "center" | "start" | "end";
+  name: keyof T;
+  label: string;
+};
 
 export type DataTableContextMenu<T> = {
-    label: string;
-    action: (row: T) => Promise<void>;
-}
+  label: string;
+  action: (row: T) => Promise<void>;
+};
 
 interface Props<T> {
-    cols: DataTableCol<T>[];
-    rows: DataTableRow<T>[];
-    loading: boolean;
-    contextMenuItems: DataTableContextMenu<T>[]
+  cols: DataTableCol<T>[];
+  rows: DataTableRow<T>[];
+  loading: boolean;
+  contextMenuItems: DataTableContextMenu<T>[];
 }
 
-export function DataTable<T>({ cols, rows, loading, contextMenuItems }: Props<T>) {
+export function DataTable<T>({
+    cols,
+    rows,
+    loading,
+    contextMenuItems,
+}: Props<T>) {
     return (
         <div className="overflow-x-auto">
             <Table className="border rounded-sm min-w-full">
@@ -50,11 +61,11 @@ export function DataTable<T>({ cols, rows, loading, contextMenuItems }: Props<T>
                                 <TableHead
                                     key={i}
                                     className={`text-${col.position} font-bold`}
-                                    style={{ width: '400px' }}
+                                    style={{ width: "400px" }}
                                 >
                                     {col.label}
                                 </TableHead>
-                            )
+                            );
                         })}
                     </TableRow>
                 </TableHeader>
@@ -77,40 +88,47 @@ export function DataTable<T>({ cols, rows, loading, contextMenuItems }: Props<T>
                             </TableCell>
                         </TableRow>
                     )}
-                    {rows.length > 0 && rows.map((row, i) => {
-                        return (
-                            <TableRow key={i}>
-                                {cols.map((col, i) => {
-                                    return (
-                                        <TableCell
-                                            key={i}
-                                            className="cursor-pointer"
-                                            style={{ width: '400px' }}
-                                        >
-                                            <ContextMenu>
-                                                <ContextMenuTrigger>
-                                                    {row.render({ field: row.field, colName: col.name })}
-                                                </ContextMenuTrigger>
-                                                <ContextMenuContent>
-                                                    {contextMenuItems.map((item, j) => {
-                                                        return (
-                                                            <ContextMenuItem key={j} onClick={async () => {
-                                                                await item.action(row.field)
-                                                            }}>
-                                                                {item.label}
-                                                            </ContextMenuItem>
-                                                        )
-                                                    })}
-                                                </ContextMenuContent>
-                                            </ContextMenu>
-                                        </TableCell>
-                                    )
-                                })}
-                            </TableRow>
-                        )
-                    })}
+                    {rows.length > 0 &&
+            rows.map((row, i) => {
+                return (
+                    <TableRow key={i}>
+                        {cols.map((col, i) => {
+                            return (
+                                <TableCell
+                                    key={i}
+                                    className="cursor-pointer"
+                                    style={{ width: "400px" }}
+                                >
+                                    <ContextMenu>
+                                        <ContextMenuTrigger>
+                                            {row.render({
+                                                field: row.field,
+                                                colName: col.name,
+                                            })}
+                                        </ContextMenuTrigger>
+                                        <ContextMenuContent>
+                                            {contextMenuItems.map((item, j) => {
+                                                return (
+                                                    <ContextMenuItem
+                                                        key={j}
+                                                        onClick={async () => {
+                                                            await item.action(row.field);
+                                                        }}
+                                                    >
+                                                        {item.label}
+                                                    </ContextMenuItem>
+                                                );
+                                            })}
+                                        </ContextMenuContent>
+                                    </ContextMenu>
+                                </TableCell>
+                            );
+                        })}
+                    </TableRow>
+                );
+            })}
                 </TableBody>
             </Table>
         </div>
-    )
+    );
 }

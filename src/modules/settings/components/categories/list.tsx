@@ -5,8 +5,8 @@ import { useCategories } from "../../Providers/CategoriesProvider";
 import { Button } from "@/components/ui/button";
 
 export function CategoriesDataList() {
-    const { deleteAction, editAction } = useCategoriesList()
-    const { categories } = useCategories()
+    const { deleteAction, editAction } = useCategoriesList();
+    const { categories } = useCategories();
 
     return (
         <List>
@@ -19,25 +19,27 @@ export function CategoriesDataList() {
                 return (
                     <ListItem key={item.id}>
                         <div className="flex justify-between items-center">
-                            <div className="font-semibold capitalize">
-                                {item.name}
-                            </div>
+                            <div className="font-semibold capitalize">{item.name}</div>
                             <div className="flex gap-2">
-                                <Button size={'icon'} onClick={() => editAction(item)} variant={'outline'}>
-                                    <Pencil
-                                        className="text-blue-400 hover:scale-105 transition-all duration-150 cursor-pointer"
-                                    />
+                                <Button
+                                    size={"icon"}
+                                    onClick={() => editAction(item)}
+                                    variant={"outline"}
+                                >
+                                    <Pencil className="text-blue-400 hover:scale-105 transition-all duration-150 cursor-pointer" />
                                 </Button>
-                                <Button size={'icon'} onClick={async () => deleteAction(item)} variant={'outline'}>
-                                    <Trash
-                                        className="text-red-400 hover:scale-105 transition-all duration-150 cursor-pointer"
-                                    />
+                                <Button
+                                    size={"icon"}
+                                    onClick={async () => deleteAction(item)}
+                                    variant={"outline"}
+                                >
+                                    <Trash className="text-red-400 hover:scale-105 transition-all duration-150 cursor-pointer" />
                                 </Button>
                             </div>
                         </div>
                     </ListItem>
-                )
+                );
             })}
         </List>
-    )
+    );
 }

@@ -1,13 +1,13 @@
-import { ViewContainer } from "@/components/shared/ViewMisc/ViewContainer"
-import { ViewTitle } from "@/components/shared/ViewMisc/ViewTitle"
-import { Separator } from "@/components/ui/separator"
-import { IconButton } from "@/components/shared/IconButton/IconButton"
-import { ArrowLeft } from "lucide-react"
-import { useNavigate } from "react-router"
-import { ProductsForm } from "../components/ProductsForm"
+import { ViewContainer } from "@/components/shared/ViewMisc/ViewContainer";
+import { ViewTitle } from "@/components/shared/ViewMisc/ViewTitle";
+import { Separator } from "@/components/ui/separator";
+import { IconButton } from "@/components/shared/IconButton/IconButton";
+import { ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router";
+import { ProductsForm } from "../components/ProductsForm";
 
 export function CreateProduct() {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     return (
         <ViewContainer>
@@ -17,7 +17,7 @@ export function CreateProduct() {
                 <IconButton
                     Icon={ArrowLeft}
                     text="Regresar"
-                    onClick={() => navigate('/app/products')}
+                    onClick={() => navigate("/app/products")}
                 />
             </div>
 
@@ -25,5 +25,5 @@ export function CreateProduct() {
 
             <ProductsForm />
         </ViewContainer>
-    )
+    );
 }

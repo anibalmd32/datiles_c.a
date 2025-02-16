@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom/client";
-import './index.css'
+import "./index.css";
 import { BrowserRouter, Routes, Route } from "react-router";
 
 // Layouts
@@ -24,30 +24,30 @@ import { CreateProduct } from "./modules/products/views/create";
 import { IndexSettings } from "./modules/settings/views";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <BrowserRouter>
-    <Routes>
-      <Route element={<PublicLayout />}>
-        <Route path="/">
-          <Route index element={<IndexPublic />} />
-        </Route>
-      </Route>
-      <Route element={<AppLayout />}>
-        <Route path="/app">
-          <Route index element={<IndexHome />} />
-          <Route path="sales">
-            <Route index element={<IndexSales />} />
-          </Route>
+    <BrowserRouter>
+        <Routes>
+            <Route element={<PublicLayout />}>
+                <Route path="/">
+                    <Route index element={<IndexPublic />} />
+                </Route>
+            </Route>
+            <Route element={<AppLayout />}>
+                <Route path="/app">
+                    <Route index element={<IndexHome />} />
+                    <Route path="sales">
+                        <Route index element={<IndexSales />} />
+                    </Route>
 
-          <Route path="products">
-            <Route index element={<IndexProducts />} />
-            <Route path="create" element={<CreateProduct />} />
-          </Route>
+                    <Route path="products">
+                        <Route index element={<IndexProducts />} />
+                        <Route path="create" element={<CreateProduct />} />
+                    </Route>
 
-          <Route path="settings">
-            <Route index element={<IndexSettings />} />
-          </Route>
-        </Route>
-      </Route>
-    </Routes>
-  </BrowserRouter>
+                    <Route path="settings">
+                        <Route index element={<IndexSettings />} />
+                    </Route>
+                </Route>
+            </Route>
+        </Routes>
+    </BrowserRouter>,
 );

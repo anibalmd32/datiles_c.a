@@ -5,41 +5,43 @@ import { MeasurementUnitData } from "@/definitions/data";
 
 // State Definition
 type StoreState = {
-    measurements: MeasurementUnitData[]
-    pagination: PaginationState;
-    filters: FilterState
-}
+  measurements: MeasurementUnitData[];
+  pagination: PaginationState;
+  filters: FilterState;
+};
 
 export type FilterState = {
-    search: string;
-    setSearch: (value: string) => void;
-}
+  search: string;
+  setSearch: (value: string) => void;
+};
 
-export const createFilterSlice = (): StateCreator<
+export const createFilterSlice =
+  (): StateCreator<
     { filters: FilterState },
     [],
     [],
     { filters: FilterState }
-> => (set) => ({
-    filters: {
-        search: '',
-        setSearch: (value) => {
-            set((state) => ({
-                ...state,
-                filters: {
-                    ...state.filters,
-                    search: value
-                }
-            }))
-        }
-    }
-})
+  > =>
+      (set) => ({
+          filters: {
+              search: "",
+              setSearch: (value) => {
+                  set((state) => ({
+                      ...state,
+                      filters: {
+                          ...state.filters,
+                          search: value,
+                      },
+                  }));
+              },
+          },
+      });
 
 // Store instance
 export const useMeasurementsStore = create<StoreState>()(
     subscribeWithSelector((...a) => ({
         measurements: [],
         ...createFilterSlice()(...a),
-        ...createPaginationSlice()(...a)
-    }))
-)
+        ...createPaginationSlice()(...a),
+    })),
+);

@@ -1,4 +1,7 @@
-import { AddCategoryForm, EditCategoryForm } from "../components/categories/forms";
+import {
+    AddCategoryForm,
+    EditCategoryForm,
+} from "../components/categories/forms";
 import { SearchCategoriesFilter } from "../components/categories/filters";
 import { CategoriesDataList } from "../components/categories/list";
 import { CategoriesPagination } from "../components/categories/pagination";
@@ -17,5 +20,5 @@ export default function CategoriesTab() {
 
             <EditCategoryForm />
         </div>
-    )
+    );
 }

@@ -1,5 +1,5 @@
-import { featureCardItems } from "./featureCardItems"
+import { featureCardItems } from "./featureCardItems";
 
 export const useFeatureCard = () => {
-    return { featureCardItems }
-}
+    return { featureCardItems };
+};

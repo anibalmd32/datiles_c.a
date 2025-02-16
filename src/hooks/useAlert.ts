@@ -1,20 +1,20 @@
 import { useToast } from "@/hooks/use-toast";
 
 export const useAlert = () => {
-    const { toast } = useToast()
+    const { toast } = useToast();
 
     const emitSuccessAlert = (msg: string) => {
         toast({
-            title: msg
-        })
-    }
+            title: msg,
+        });
+    };
 
     const emitErrorAlert = (msg: string) => {
         toast({
             title: msg,
-            variant: 'destructive'
-        })
-    }
+            variant: "destructive",
+        });
+    };
 
-    return { emitSuccessAlert, emitErrorAlert }
-}
+    return { emitSuccessAlert, emitErrorAlert };
+};

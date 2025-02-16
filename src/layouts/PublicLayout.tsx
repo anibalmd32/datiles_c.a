@@ -5,5 +5,5 @@ export function PublicLayout() {
         <div className="w-full">
             <Outlet />
         </div>
-    )
+    );
 }

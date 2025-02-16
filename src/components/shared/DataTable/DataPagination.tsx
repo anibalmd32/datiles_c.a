@@ -7,17 +7,17 @@ import {
 import { useEffect, useState } from "react";
 
 type Props = {
-    currentPage: number;
-    totalPages: number;
-    onPageChange: (pageNumber: number) => void;
-    isLoadingData: boolean;
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (pageNumber: number) => void;
+  isLoadingData: boolean;
 };
 
 export function DataPagination({
     currentPage,
     totalPages,
     onPageChange,
-    isLoadingData
+    isLoadingData,
 }: Props) {
     const [paginationItems, setPaginationItems] = useState<number[]>([]);
     const [visiblePages, setVisiblePages] = useState<number[]>([]);
@@ -34,9 +34,7 @@ export function DataPagination({
             const end = Math.min(start + 3, totalPages);
             setVisiblePages(paginationItems.slice(start, end));
         }
-
     }, [paginationItems, currentPage, totalPages]);
-
 
     const handlePageChange = (pageNumber: number) => {
         if (pageNumber !== currentPage) {
@@ -44,7 +42,7 @@ export function DataPagination({
         }
     };
 
-    if (totalPages <= 1) return null
+    if (totalPages <= 1) return null;
 
     return (
         <Pagination>
@@ -52,19 +50,22 @@ export function DataPagination({
                 <PaginationItem
                     onClick={() => {
                         if (!isLoadingData && currentPage > 1) {
-                            handlePageChange(currentPage - 1)
-                        };
+                            handlePageChange(currentPage - 1);
+                        }
                     }}
                 >
-                    <button disabled={isLoadingData} className={`
+                    <button
+                        disabled={isLoadingData}
+                        className={`
                         mr-2 p-2 rounded-sm transition-all duration-300 select-none
                         ${
-                            currentPage === 1 || isLoadingData
-                            ? "cursor-not-allowed"
-                            : "cursor-pointer hover:bg-gray-100"
-                        }  
-                    `}>
-                        atrás
+        currentPage === 1 || isLoadingData
+            ? "cursor-not-allowed"
+            : "cursor-pointer hover:bg-gray-100"
+        }  
+                    `}
+                    >
+            atrás
                     </button>
                 </PaginationItem>
 
@@ -74,7 +75,7 @@ export function DataPagination({
                             className="py-1 px-4 border rounded-sm cursor-pointer hover:bg-gray-200 transition-all duration-300"
                             onClick={() => handlePageChange(1)}
                         >
-                            1
+              1
                         </PaginationItem>
                         <PaginationEllipsis />
                     </>
@@ -85,7 +86,7 @@ export function DataPagination({
                         key={item}
                         onClick={() => {
                             if (!isLoadingData) {
-                                handlePageChange(item)
+                                handlePageChange(item);
                             }
                         }}
                         className={`py-1 px-4 border rounded-sm ${
@@ -105,7 +106,7 @@ export function DataPagination({
                             className="py-1 px-4 border rounded-sm cursor-pointer hover:bg-gray-200 transition-all duration-300"
                             onClick={() => {
                                 if (!isLoadingData) {
-                                    handlePageChange(totalPages)
+                                    handlePageChange(totalPages);
                                 }
                             }}
                         >
@@ -115,25 +116,24 @@ export function DataPagination({
                 )}
 
                 <PaginationItem
-                    
                     onClick={() => {
                         if (!isLoadingData && currentPage < totalPages) {
-                            handlePageChange(currentPage + 1)
-                        };
+                            handlePageChange(currentPage + 1);
+                        }
                     }}
                 >
                     <button
                         disabled={isLoadingData}
                         className={`
                             ${
-                                currentPage === totalPages || isLoadingData
-                                ? "cursor-not-allowed"
-                                : "cursor-pointer hover:bg-gray-100"
-                            }
+        currentPage === totalPages || isLoadingData
+            ? "cursor-not-allowed"
+            : "cursor-pointer hover:bg-gray-100"
+        }
                             ml-2 p-2 rounded-sm transition-all duration-300 select-none
                         `}
                     >
-                        siguiente
+            siguiente
                     </button>
                 </PaginationItem>
             </PaginationContent>

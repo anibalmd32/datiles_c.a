@@ -1,11 +1,11 @@
 import ClipLoader from "react-spinners/ClipLoader";
 
 type Props = {
-    size?: number;
-    color?: string;
-}
+  size?: number;
+  color?: string;
+};
 
-export function LoaderSpinner({ color = 'black', size = 16}: Props) {
+export function LoaderSpinner({ color = "black", size = 16 }: Props) {
     return (
         <ClipLoader
             color={color}
@@ -14,5 +14,5 @@ export function LoaderSpinner({ color = 'black', size = 16}: Props) {
             aria-label="Loading Spinner"
             data-testid="loader"
         />
-    )
+    );
 }

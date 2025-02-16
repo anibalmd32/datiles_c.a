@@ -7,7 +7,7 @@ import {
     CardContent,
     CardDescription,
     CardHeader,
-    CardTitle
+    CardTitle,
 } from "@/components/ui/card";
 
 // Shared Components
@@ -17,25 +17,20 @@ import { IconButton } from "@/components/shared/IconButton/IconButton";
 import { Smile, DoorOpen } from "lucide-react";
 
 export default function PresentationCard() {
-    const { enterBtnOnClick } = usePresentationCard()
+    const { enterBtnOnClick } = usePresentationCard();
 
     return (
         <Card>
             <CardHeader>
-                <CardTitle>
-                    DATILES C.A.
-                </CardTitle>
+                <CardTitle>DATILES C.A.</CardTitle>
                 <CardDescription className="flex gap-1">
-                    Gestiona tu negocio eficientemente y crece para beneficio de los tuyos <Smile />
+          Gestiona tu negocio eficientemente y crece para beneficio de los tuyos{" "}
+                    <Smile />
                 </CardDescription>
             </CardHeader>
             <CardContent>
-                <IconButton
-                    onClick={enterBtnOnClick}
-                    Icon={DoorOpen}
-                    text="Entrar"
-                />
+                <IconButton onClick={enterBtnOnClick} Icon={DoorOpen} text="Entrar" />
             </CardContent>
         </Card>
-    )
+    );
 }

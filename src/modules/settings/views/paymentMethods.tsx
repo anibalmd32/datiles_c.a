@@ -1,4 +1,7 @@
-import { AddPaymentMethodForm, EditPaymentMethodForm } from "../components/paymentMethods/forms";
+import {
+    AddPaymentMethodForm,
+    EditPaymentMethodForm,
+} from "../components/paymentMethods/forms";
 import { SearchPaymentMethodsFilter } from "../components/paymentMethods/filters";
 import { PaymentMethodsDataList } from "../components/paymentMethods/list";
 import { PaymentMethodsPagination } from "../components/paymentMethods/pagination";
@@ -17,5 +20,5 @@ export default function PaymentMethodsTab() {
 
             <EditPaymentMethodForm />
         </div>
-    )
+    );
 }

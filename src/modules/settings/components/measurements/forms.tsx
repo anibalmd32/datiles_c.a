@@ -1,6 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { useAddMeasurement } from "../../hooks/useAddMeasurement";
-import * as ShadForm from '@/components/ui/form'
+import * as ShadForm from "@/components/ui/form";
 import { Modal } from "@/components/shared/Modal/Modal";
 import { Button } from "@/components/ui/button";
 import { ArrowRightCircle } from "lucide-react";
@@ -9,7 +9,7 @@ import { useEditMeasurement } from "../../hooks/useEditMeasurement";
 import { useMeasurements } from "../../Providers/MeasurementsProvider";
 
 export function AddMeasurementForm() {
-    const { form, submitHandler } = useAddMeasurement()
+    const { form, submitHandler } = useAddMeasurement();
 
     return (
         <ShadForm.Form {...form}>
@@ -27,20 +27,20 @@ export function AddMeasurementForm() {
                     )}
                 />
                 <Button type="submit">
-                    {
-                        form.formState.isSubmitting
-                            ? <LoaderSpinner color="white" />
-                            : <ArrowRightCircle />
-                    }
+                    {form.formState.isSubmitting ? (
+                        <LoaderSpinner color="white" />
+                    ) : (
+                        <ArrowRightCircle />
+                    )}
                 </Button>
             </form>
         </ShadForm.Form>
-    )
+    );
 }
 
 export function EditMeasurementForm() {
-    const { form, submitHandler } = useEditMeasurement()
-    const { openEditForm, handleCloseEditForm } = useMeasurements()
+    const { form, submitHandler } = useEditMeasurement();
+    const { openEditForm, handleCloseEditForm } = useMeasurements();
 
     return (
         <Modal
@@ -49,7 +49,10 @@ export function EditMeasurementForm() {
             title="Editar unidad de medida"
         >
             <ShadForm.Form {...form}>
-                <form onSubmit={form.handleSubmit(submitHandler)} className="flex gap-2">
+                <form
+                    onSubmit={form.handleSubmit(submitHandler)}
+                    className="flex gap-2"
+                >
                     <ShadForm.FormField
                         control={form.control}
                         name="name"
@@ -63,15 +66,14 @@ export function EditMeasurementForm() {
                         )}
                     />
                     <Button type="submit">
-                        {
-                            form.formState.isSubmitting
-                                ? <LoaderSpinner color="white" />
-                                : <ArrowRightCircle />
-                        }
+                        {form.formState.isSubmitting ? (
+                            <LoaderSpinner color="white" />
+                        ) : (
+                            <ArrowRightCircle />
+                        )}
                     </Button>
                 </form>
             </ShadForm.Form>
         </Modal>
-    )
+    );
 }
-

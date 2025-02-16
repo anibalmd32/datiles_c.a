@@ -5,21 +5,21 @@ import { useProducts } from "../providers/ProductsProviders";
 import { useNavigate } from "react-router";
 
 export const useProductsTable = () => {
-    const { handleShowDeleteAlert, products, loadProducts } = useProducts()
+    const { handleShowDeleteAlert, products, loadProducts } = useProducts();
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
-    const cols = productsCols
-    const rows = productsRows(products)
+    const cols = productsCols;
+    const rows = productsRows(products);
     const menu = productsMenu({
         onDelete: handleShowDeleteAlert,
-        onEdit: (item) => navigate(`/edit/${item.id}`)
-    })
+        onEdit: (item) => navigate(`/edit/${item.id}`),
+    });
 
     return {
         cols,
         rows,
         menu,
-        loadingData: loadProducts.loading
-    }
-}
+        loadingData: loadProducts.loading,
+    };
+};

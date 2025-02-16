@@ -1,11 +1,13 @@
-import React, { Suspense } from "react"
-import { Skeleton } from "@/components/ui/skeleton"
+import React, { Suspense } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 // Module Hooks
 // import { useFeatureCard } from "../components/FeatureCard/useFeatureCard"
 
 // Module Components
-const PresentationCard = React.lazy(() => import('../components/PresentationCard/PresentationCard'))
+const PresentationCard = React.lazy(
+    () => import("../components/PresentationCard/PresentationCard"),
+);
 // const FeatureCard = React.lazy(() => import('../components/FeatureCard/FeatureCard'))
 
 // Module View
@@ -30,5 +32,5 @@ export function IndexPublic() {
                 ))}
             </div> */}
         </div>
-    )
+    );
 }

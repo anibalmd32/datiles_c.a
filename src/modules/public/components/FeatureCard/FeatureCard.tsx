@@ -1,25 +1,27 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
 import { FeatureCardItem } from "./featureCardItems";
 import { Check } from "lucide-react";
 
 export default function FeatureCard({
     benefits,
     description,
-    title
+    title,
 }: FeatureCardItem) {
     return (
         <Card>
             <CardHeader>
-                <CardTitle>
-                    {title}
-                </CardTitle>
-                <CardDescription>
-                    {description}
-                </CardDescription>
+                <CardTitle>{title}</CardTitle>
+                <CardDescription>{description}</CardDescription>
             </CardHeader>
             <CardContent>
                 <ul>
-                    {benefits.map(benefit => (
+                    {benefits.map((benefit) => (
                         <li key={benefit} className="flex gap-1">
                             {benefit} <Check />
                         </li>
@@ -27,5 +29,5 @@ export default function FeatureCard({
                 </ul>
             </CardContent>
         </Card>
-    )
+    );
 }

@@ -2,7 +2,7 @@ import { DataTable } from "@/components/shared/DataTable/DataTable";
 import { useMeasurementTable } from "../../hooks/useMeasurementsTable";
 
 export function MeasurementsDataTable() {
-    const { cols, loadingData, menu, rows } = useMeasurementTable()
+    const { cols, loadingData, menu, rows } = useMeasurementTable();
 
     return (
         <DataTable
@@ -11,5 +11,5 @@ export function MeasurementsDataTable() {
             loading={loadingData}
             rows={rows}
         />
-    )
+    );
 }

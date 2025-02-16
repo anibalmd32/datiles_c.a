@@ -3,9 +3,9 @@ import { useStockModesStore } from "../../stores/stockModesStore";
 import { useStockModeActions } from "../../actions/stockModeActions";
 
 export function StockModePagination() {
-    const pagination = useStockModesStore(store => store.pagination)
-    const { currentPage, setCurrentPage, totalPages } = pagination
-    const { load } = useStockModeActions()
+    const pagination = useStockModesStore((store) => store.pagination);
+    const { currentPage, setCurrentPage, totalPages } = pagination;
+    const { load } = useStockModeActions();
 
     return (
         <DataPagination
@@ -14,5 +14,5 @@ export function StockModePagination() {
             onPageChange={(page) => setCurrentPage(page)}
             totalPages={totalPages}
         />
-    )
+    );
 }

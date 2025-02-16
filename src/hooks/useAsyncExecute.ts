@@ -1,21 +1,21 @@
 import { useState } from "react";
 
 type Props<T> = {
-    execute: (values?: T) => Promise<void>
-}
+  execute: (values?: T) => Promise<void>;
+};
 
 export type ExternalCallbacks = {
-    onSuccess?: () => void;
-    onError?: (errMsg: string) => void;
-    onFinish?: () => void;
-}
+  onSuccess?: () => void;
+  onError?: (errMsg: string) => void;
+  onFinish?: () => void;
+};
 
 export type AsyncAction<T> = {
-    run: (cbs?: ExternalCallbacks, values?: T | undefined) => Promise<void>;
-    loading: boolean;
-    success: boolean;
-    finished: boolean;
-}
+  run: (cbs?: ExternalCallbacks, values?: T | undefined) => Promise<void>;
+  loading: boolean;
+  success: boolean;
+  finished: boolean;
+};
 
 export function useAsyncExecute<T>({ execute }: Props<T>) {
     const [loading, setLoading] = useState(false);
@@ -23,10 +23,10 @@ export function useAsyncExecute<T>({ execute }: Props<T>) {
     const [finished, setFinished] = useState(false);
 
     const reset = () => {
-        setFinished(false)
-        setSuccess(false)
-        setLoading(false)
-    }
+        setFinished(false);
+        setSuccess(false);
+        setLoading(false);
+    };
 
     const run = async (cbs?: ExternalCallbacks, values?: T) => {
         setLoading(true);
@@ -37,13 +37,12 @@ export function useAsyncExecute<T>({ execute }: Props<T>) {
             cbs?.onSuccess?.();
         } catch (err: any) {
             cbs?.onError?.(err.message);
-            setSuccess(false)
+            setSuccess(false);
         } finally {
             setLoading(false);
             setFinished(true);
             cbs?.onFinish?.();
         }
-
     };
 
     return {
@@ -51,6 +50,6 @@ export function useAsyncExecute<T>({ execute }: Props<T>) {
         loading,
         success,
         finished,
-        reset
+        reset,
     };
 }

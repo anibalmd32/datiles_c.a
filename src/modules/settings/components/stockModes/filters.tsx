@@ -2,7 +2,7 @@ import { SearchInput } from "@/components/shared/SearchInput/SearchInput";
 import { useStockModesStore } from "../../stores/stockModesStore";
 
 export function SearchStockMode() {
-    const filters = useStockModesStore(store => store.filters)
+    const filters = useStockModesStore((store) => store.filters);
 
     return (
         <SearchInput
@@ -10,5 +10,5 @@ export function SearchStockMode() {
             placeholder="Buscar Modo"
             value={filters.search}
         />
-    )
+    );
 }

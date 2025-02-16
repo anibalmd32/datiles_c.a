@@ -2,11 +2,10 @@ import { useCategories } from "../../Providers/CategoriesProvider";
 import { DataPagination } from "@/components/shared/DataTable/DataPagination";
 
 export function CategoriesPagination() {
-    const { pagination: {
-        currentPage,
-        totalPages,
-        setCurrentPage,
-    }, loadCategories } = useCategories()
+    const {
+        pagination: { currentPage, totalPages, setCurrentPage },
+        loadCategories,
+    } = useCategories();
 
     return (
         <DataPagination
@@ -15,5 +14,5 @@ export function CategoriesPagination() {
             onPageChange={(page) => setCurrentPage(page)}
             totalPages={totalPages}
         />
-    )
+    );
 }

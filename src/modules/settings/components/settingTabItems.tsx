@@ -1,53 +1,47 @@
-import React, { ReactNode, Suspense } from "react"
-import * as Card from '@/components/ui/card'
-import { Skeleton } from "@/components/ui/skeleton"
-import { DynamicTabItems } from "@/components/shared/DynamicTabs/DynamicTabs"
+import React, { ReactNode, Suspense } from "react";
+import * as Card from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { DynamicTabItems } from "@/components/shared/DynamicTabs/DynamicTabs";
 
 // Providers
-import { CategoriesProvider } from "../Providers/CategoriesProvider"
-import { PaymentMethodsProvider } from "../Providers/PaymentMethodsProvider"
-import { MeasurementsProvider } from "../Providers/MeasurementsProvider"
+import { CategoriesProvider } from "../Providers/CategoriesProvider";
+import { PaymentMethodsProvider } from "../Providers/PaymentMethodsProvider";
+import { MeasurementsProvider } from "../Providers/MeasurementsProvider";
 
 // Lazy components
-const CategoriesTab = React.lazy(() => import("../views/categories"))
-const PaymentMethodsTab = React.lazy(() => import("../views/paymentMethods"))
-const MeasurementsTab = React.lazy(() => import("../views/measurements"))
-const StockMode = React.lazy(() => import("../views/stockMode"))
+const CategoriesTab = React.lazy(() => import("../views/categories"));
+const PaymentMethodsTab = React.lazy(() => import("../views/paymentMethods"));
+const MeasurementsTab = React.lazy(() => import("../views/measurements"));
+const StockMode = React.lazy(() => import("../views/stockMode"));
 
 const TabContentWrapper = ({
     children,
     description,
-    title
+    title,
 }: {
-    title: string;
-    description: string;
-    children: ReactNode;
+  title: string;
+  description: string;
+  children: ReactNode;
 }) => {
     return (
-        <Card.Card className='md:max-w-xl'>
+        <Card.Card className="md:max-w-xl">
             <Card.CardHeader>
-                <Card.CardTitle>
-                    {title}
-                </Card.CardTitle>
-                <Card.CardDescription>
-                    {description}
-                </Card.CardDescription>
+                <Card.CardTitle>{title}</Card.CardTitle>
+                <Card.CardDescription>{description}</Card.CardDescription>
             </Card.CardHeader>
 
-            <Card.CardContent className='space-y-2'>
-                {children}
-            </Card.CardContent>
+            <Card.CardContent className="space-y-2">{children}</Card.CardContent>
         </Card.Card>
-    )
-}
+    );
+};
 
-const TabContentFallback = () => <Skeleton className='md:max-w-xl h-[400px]' />
+const TabContentFallback = () => <Skeleton className="md:max-w-xl h-[400px]" />;
 
 export const SettingTabItems = () => {
     return [
         {
-            label: 'Categorías',
-            value: 'categories',
+            label: "Categorías",
+            value: "categories",
             element: (
                 <TabContentWrapper
                     title="Lista de categorías"
@@ -59,11 +53,11 @@ export const SettingTabItems = () => {
                         </CategoriesProvider>
                     </Suspense>
                 </TabContentWrapper>
-            )
+            ),
         },
         {
-            label: 'Métodos de pago',
-            value: 'payment_methods',
+            label: "Métodos de pago",
+            value: "payment_methods",
             element: (
                 <TabContentWrapper
                     title="Métodos de pago"
@@ -75,11 +69,11 @@ export const SettingTabItems = () => {
                         </PaymentMethodsProvider>
                     </Suspense>
                 </TabContentWrapper>
-            )
+            ),
         },
         {
-            label: 'Modos de almacenamiento',
-            value: 'stock_modes',
+            label: "Modos de almacenamiento",
+            value: "stock_modes",
             element: (
                 <TabContentWrapper
                     title="Modos de almacenamiento"
@@ -91,11 +85,11 @@ export const SettingTabItems = () => {
                         </MeasurementsProvider>
                     </Suspense>
                 </TabContentWrapper>
-            )
+            ),
         },
         {
-            label: 'Medidas',
-            value: 'measurements',
+            label: "Medidas",
+            value: "measurements",
             element: (
                 <TabContentWrapper
                     title="Unidades de medida"
@@ -107,8 +101,7 @@ export const SettingTabItems = () => {
                         </MeasurementsProvider>
                     </Suspense>
                 </TabContentWrapper>
-            )
-        }
-    ] as DynamicTabItems[]
-    
-} 
+            ),
+        },
+    ] as DynamicTabItems[];
+};

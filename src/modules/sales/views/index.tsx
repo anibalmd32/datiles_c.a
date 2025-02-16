@@ -1,6 +1,6 @@
 import { ViewContainer } from "@/components/shared/ViewMisc/ViewContainer";
 import { ViewTitle } from "@/components/shared/ViewMisc/ViewTitle";
-import { Separator } from "@/components/ui/separator"
+import { Separator } from "@/components/ui/separator";
 
 export function IndexSales() {
     return (
@@ -9,5 +9,5 @@ export function IndexSales() {
 
             <Separator />
         </ViewContainer>
-    )
+    );
 }

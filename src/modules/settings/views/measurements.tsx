@@ -1,4 +1,7 @@
-import { AddMeasurementForm, EditMeasurementForm } from "../components/measurements/forms";
+import {
+    AddMeasurementForm,
+    EditMeasurementForm,
+} from "../components/measurements/forms";
 import { SearchMeasurementsFilter } from "../components/measurements/filters";
 import { MeasurementsDataTable } from "../components/measurements/table";
 import { MeasurementsPagination } from "../components/measurements/pagination";
@@ -17,5 +20,5 @@ export default function MeasurementsTab() {
 
             <EditMeasurementForm />
         </div>
-    )
+    );
 }

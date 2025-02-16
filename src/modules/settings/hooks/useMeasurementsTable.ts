@@ -6,27 +6,35 @@ import { useAlert } from "@/hooks/useAlert";
 import { MeasurementUnitData } from "@/definitions/data";
 
 export const useMeasurementTable = () => {
-    const { measurements, deleteMeasurement, loadMeasurements, handleOpenEditForm } = useMeasurements()
-    const { emitErrorAlert, emitSuccessAlert } = useAlert()
+    const {
+        measurements,
+        deleteMeasurement,
+        loadMeasurements,
+        handleOpenEditForm,
+    } = useMeasurements();
+    const { emitErrorAlert, emitSuccessAlert } = useAlert();
 
     const editAction = (row: MeasurementUnitData) => {
-        handleOpenEditForm(row)
-    }
+        handleOpenEditForm(row);
+    };
     const deleteAction = async (row: MeasurementUnitData) => {
-        await deleteMeasurement.run({
-            onSuccess: () => emitSuccessAlert('Unidad eliminada'),
-            onError: () => emitErrorAlert('Error al eliminar unidad')
-        }, row)
-    }
+        await deleteMeasurement.run(
+            {
+                onSuccess: () => emitSuccessAlert("Unidad eliminada"),
+                onError: () => emitErrorAlert("Error al eliminar unidad"),
+            },
+            row,
+        );
+    };
 
     const cols = measurementsCols;
-    const rows = measurementsTableRows(measurements)
-    const menu = measurementsMenu({ editAction, deleteAction })
+    const rows = measurementsTableRows(measurements);
+    const menu = measurementsMenu({ editAction, deleteAction });
 
     return {
         cols,
         rows,
         menu,
-        loadingData: loadMeasurements.loading
-    }
-}
+        loadingData: loadMeasurements.loading,
+    };
+};

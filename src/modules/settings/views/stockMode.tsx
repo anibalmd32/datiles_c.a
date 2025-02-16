@@ -1,9 +1,9 @@
-import { SearchStockMode } from "../components/stockModes/filters"
-import { AddStockModeForm } from "../components/stockModes/forms"
-import { StockModeDataList } from "../components/stockModes/list"
-import { EditStockModeProvider } from "../hooks/useEditStockMode"
-import { EditStockModeForm } from "../components/stockModes/forms"
-import { StockModePagination } from "../components/stockModes/pagination"
+import { SearchStockMode } from "../components/stockModes/filters";
+import { AddStockModeForm } from "../components/stockModes/forms";
+import { StockModeDataList } from "../components/stockModes/list";
+import { EditStockModeProvider } from "../hooks/useEditStockMode";
+import { EditStockModeForm } from "../components/stockModes/forms";
+import { StockModePagination } from "../components/stockModes/pagination";
 
 export default function StockMode() {
     return (
@@ -20,5 +20,5 @@ export default function StockMode() {
                 <StockModePagination />
             </div>
         </div>
-    )
+    );
 }
