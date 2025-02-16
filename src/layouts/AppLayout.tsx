@@ -12,7 +12,7 @@ export function AppLayout() {
     const getDolarPrice = useDolarStore((store) => store.getDolarPrice);
 
     useEffect(() => {
-        const disableContextMenu = (event: any) => {
+        const disableContextMenu = (event: MouseEvent) => {
             event.preventDefault(); // Evita que se muestre el menú contextual
         };
 

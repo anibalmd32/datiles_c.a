@@ -1,20 +1,20 @@
 import { useState } from "react";
 
 type Props<T> = {
-  execute: (values?: T) => Promise<void>;
+    execute: (values?: T) => Promise<void>;
 };
 
 export type ExternalCallbacks = {
-  onSuccess?: () => void;
-  onError?: (errMsg: string) => void;
-  onFinish?: () => void;
+    onSuccess?: () => void;
+    onError?: (errMsg: string) => void;
+    onFinish?: () => void;
 };
 
 export type AsyncAction<T> = {
-  run: (cbs?: ExternalCallbacks, values?: T | undefined) => Promise<void>;
-  loading: boolean;
-  success: boolean;
-  finished: boolean;
+    run: (cbs?: ExternalCallbacks, values?: T | undefined) => Promise<void>;
+    loading: boolean;
+    success: boolean;
+    finished: boolean;
 };
 
 export function useAsyncExecute<T>({ execute }: Props<T>) {
@@ -35,8 +35,9 @@ export function useAsyncExecute<T>({ execute }: Props<T>) {
             await execute(values);
             setSuccess(true);
             cbs?.onSuccess?.();
-        } catch (err: any) {
-            cbs?.onError?.(err.message);
+        } catch (err) {
+            const e = err as { message: string };
+            cbs?.onError?.(e.message);
             setSuccess(false);
         } finally {
             setLoading(false);

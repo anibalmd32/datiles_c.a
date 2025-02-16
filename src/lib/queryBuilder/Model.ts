@@ -13,37 +13,49 @@ import {
 import { QueryBuilder } from "./QueryBuilder";
 
 type ModelSelectOptions<T> = {
-  select?: QuerySelectOptions<T>;
-  withRelation?: QueryJoinOptions<T>;
-  filters?: QueryWhereOptions<T>;
-  pagination?: {
-    size: QueryLimitOptions;
-    skip: QueryOffsetOptions;
-  };
-  order?: QueryOrderOptions;
+    select?: QuerySelectOptions<T>;
+    withRelation?: QueryJoinOptions<T>;
+    filters?: QueryWhereOptions<T>;
+    pagination?: {
+        size: QueryLimitOptions;
+        skip: QueryOffsetOptions;
+    };
+    order?: QueryOrderOptions;
 };
 
 type ModelCountOptions<T> = {
-  where?: QueryWhereOptions<T>;
+    where?: QueryWhereOptions<T>;
 };
 
 type ModelUpdateOptions<T> = {
-  id: string;
-  data: QueryUpdateOptions<T>;
+    id: string;
+    data: QueryUpdateOptions<T>;
 };
 
 interface IModel<T> {
-  select: (options: ModelSelectOptions<T>, params: Array<any>) => Promise<T[]>;
-  count: (options: ModelCountOptions<T>, params: Array<any>) => Promise<number>;
-  create: (options: QueryInsertOptions<T>, params: Array<any>) => Promise<void>;
-  delete: ({ id }: { id: number }) => Promise<void>;
-  update: (options: ModelUpdateOptions<T>, params: Array<any>) => Promise<void>;
+    select: (
+        options: ModelSelectOptions<T>,
+        params: Array<unknown>,
+    ) => Promise<T[]>;
+    count: (
+        options: ModelCountOptions<T>,
+        params: Array<unknown>,
+    ) => Promise<number>;
+    create: (
+        options: QueryInsertOptions<T>,
+        params: Array<unknown>,
+    ) => Promise<void>;
+    delete: ({ id }: { id: number }) => Promise<void>;
+    update: (
+        options: ModelUpdateOptions<T>,
+        params: Array<unknown>,
+    ) => Promise<void>;
 }
 
 export class Model<T> implements IModel<T> {
     constructor(private readonly table: TABLES) {}
 
-    async select(options: ModelSelectOptions<T>, params: Array<any>) {
+    async select(options: ModelSelectOptions<T>, params: Array<unknown>) {
         const db = await Database.load("sqlite:datiles.db");
         const { filters, order, pagination, select, withRelation } = options;
 
@@ -62,7 +74,7 @@ export class Model<T> implements IModel<T> {
         return result;
     }
 
-    async count(options: ModelCountOptions<T>, params: Array<any>) {
+    async count(options: ModelCountOptions<T>, params: Array<unknown>) {
         const db = await Database.load("sqlite:datiles.db");
         const { where } = options;
 
@@ -80,7 +92,7 @@ export class Model<T> implements IModel<T> {
         return result[0].total;
     }
 
-    async create(options: QueryInsertOptions<T>, params: Array<any>) {
+    async create(options: QueryInsertOptions<T>, params: Array<unknown>) {
         const db = await Database.load("sqlite:datiles.db");
         const query = new QueryBuilder<T>(this.table).insertQuery(options);
 
@@ -94,7 +106,7 @@ export class Model<T> implements IModel<T> {
         await db.execute(query.build(), [id]);
     }
 
-    async update(options: ModelUpdateOptions<T>, params: Array<any>) {
+    async update(options: ModelUpdateOptions<T>, params: Array<unknown>) {
         const db = await Database.load("sqlite:datiles.db");
         const query = new QueryBuilder<T>(this.table).updateQuery(
             options.data,
