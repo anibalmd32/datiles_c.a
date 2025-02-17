@@ -6,7 +6,7 @@ import { ReactNode } from "react";
 import { Input } from "@/components/ui/input";
 import { SelectOptions } from "@/components/shared/SelectOption/SelectOption";
 import { useCategoriesStore } from "@/modules/settings/stores/categoriesStore";
-import { useMeasurementsStore } from "@/modules/settings/stores/measurementsStore";
+// import { useMeasurementsStore } from "@/modules/settings/stores/measurementsStore";
 import { IconButton } from "@/components/shared/IconButton/IconButton";
 import { Save, RotateCcw } from "lucide-react";
 
@@ -16,10 +16,10 @@ const FormField = ({
     label,
     render,
 }: {
-  name: keyof ProductFormType;
-  control: Control<ProductFormType>;
-  label: string;
-  render: (field: ControllerRenderProps<ProductFormType>) => ReactNode;
+    name: keyof ProductFormType;
+    control: Control<ProductFormType>;
+    label: string;
+    render: (field: ControllerRenderProps<ProductFormType>) => ReactNode;
 }) => {
     return (
         <ShadForm.FormField
@@ -38,7 +38,7 @@ const FormField = ({
 
 export function ProductsForm() {
     const categories = useCategoriesStore((store) => store.categories);
-    const measurements = useMeasurementsStore((store) => store.measurements);
+    // const measurements = useMeasurementsStore((store) => store.measurements);
     const { form, onSubmit } = useProductsForm();
 
     return (
@@ -50,7 +50,7 @@ export function ProductsForm() {
                 {/* Información del producto */}
                 <fieldset className="border border-gray-200 rounded-lg p-4 md:p-6 shadow-sm">
                     <legend className="px-2 text-xl font-medium text-gray-700 bg-white">
-            Información del producto
+                        Información del producto
                     </legend>
                     <div className="flex flex-col md:flex-row justify-between gap-4">
                         <FormField
@@ -67,7 +67,9 @@ export function ProductsForm() {
                             name="category_id"
                             render={(field) => (
                                 <SelectOptions
-                                    onExternalChange={(value) => field.onChange(Number(value))}
+                                    onExternalChange={(value) =>
+                                        field.onChange(Number(value))
+                                    }
                                     placeholder="Selecciona una categoría"
                                     options={categories.map((item) => ({
                                         label: item.name,
@@ -101,12 +103,16 @@ export function ProductsForm() {
                                     <Input
                                         {...field}
                                         value={Number(field.value)}
-                                        onChange={(e) => field.onChange(Number(e.target.value))}
+                                        onChange={(e) =>
+                                            field.onChange(
+                                                Number(e.target.value),
+                                            )
+                                        }
                                         type="number"
                                     />
                                 )}
                             />
-                            <FormField
+                            {/* <FormField
                                 label="Unidad"
                                 control={form.control}
                                 name="unit_id"
@@ -120,7 +126,7 @@ export function ProductsForm() {
                                         }))}
                                     />
                                 )}
-                            />
+                            /> */}
                         </div>
                     </div>
                 </fieldset>
@@ -128,7 +134,7 @@ export function ProductsForm() {
                 {/* Precios de compra */}
                 <fieldset className="border border-gray-200 rounded-lg p-4 md:p-6 shadow-sm">
                     <legend className="px-2 text-xl font-medium text-gray-700 bg-white">
-            Precios
+                        Precios
                     </legend>
                     <div className="flex flex-col md:flex-row gap-4">
                         <FormField

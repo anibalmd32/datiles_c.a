@@ -5,13 +5,13 @@ import { subscribeWithSelector } from "zustand/middleware";
 // Libs
 import { createPaginationSlice, PaginationState } from "@/lib/paginationSlice";
 import { createFilterSlice, FilterState } from "@/lib/filtersSlice";
-import { StockModeData } from "@/definitions/data";
+import { MeasurementUnitData, StockModeData } from "@/definitions/data";
 
 // State Definition
 type StoreState = {
-  data: StockModeData[];
-  pagination: PaginationState;
-  filters: FilterState;
+    data: Array<StockModeData & { measurements: MeasurementUnitData[] }>;
+    pagination: PaginationState;
+    filters: FilterState;
 };
 
 // Store instance

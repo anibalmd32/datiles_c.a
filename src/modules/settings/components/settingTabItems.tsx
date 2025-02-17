@@ -6,12 +6,10 @@ import { DynamicTabItems } from "@/components/shared/DynamicTabs/DynamicTabs";
 // Providers
 import { CategoriesProvider } from "../Providers/CategoriesProvider";
 import { PaymentMethodsProvider } from "../Providers/PaymentMethodsProvider";
-import { MeasurementsProvider } from "../Providers/MeasurementsProvider";
 
 // Lazy components
 const CategoriesTab = React.lazy(() => import("../views/categories"));
 const PaymentMethodsTab = React.lazy(() => import("../views/paymentMethods"));
-const MeasurementsTab = React.lazy(() => import("../views/measurements"));
 const StockMode = React.lazy(() => import("../views/stockMode"));
 
 const TabContentWrapper = ({
@@ -19,9 +17,9 @@ const TabContentWrapper = ({
     description,
     title,
 }: {
-  title: string;
-  description: string;
-  children: ReactNode;
+    title: string;
+    description: string;
+    children: ReactNode;
 }) => {
     return (
         <Card.Card className="md:max-w-xl">
@@ -30,7 +28,9 @@ const TabContentWrapper = ({
                 <Card.CardDescription>{description}</Card.CardDescription>
             </Card.CardHeader>
 
-            <Card.CardContent className="space-y-2">{children}</Card.CardContent>
+            <Card.CardContent className="space-y-2">
+                {children}
+            </Card.CardContent>
         </Card.Card>
     );
 };
@@ -80,25 +80,7 @@ export const SettingTabItems = () => {
                     description="Modos en los que sus productos se almacenaran en su inventario"
                 >
                     <Suspense fallback={<TabContentFallback />}>
-                        <MeasurementsProvider>
-                            <StockMode />
-                        </MeasurementsProvider>
-                    </Suspense>
-                </TabContentWrapper>
-            ),
-        },
-        {
-            label: "Medidas",
-            value: "measurements",
-            element: (
-                <TabContentWrapper
-                    title="Unidades de medida"
-                    description="Medidas para determinar la cantidad de sus productos"
-                >
-                    <Suspense fallback={<TabContentFallback />}>
-                        <MeasurementsProvider>
-                            <MeasurementsTab />
-                        </MeasurementsProvider>
+                        <StockMode />
                     </Suspense>
                 </TabContentWrapper>
             ),

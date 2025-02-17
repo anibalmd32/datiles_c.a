@@ -14,7 +14,7 @@ import { QueryBuilder } from "./QueryBuilder";
 
 type ModelSelectOptions<T> = {
     select?: QuerySelectOptions<T>;
-    withRelation?: QueryJoinOptions<T>;
+    withRelation?: QueryJoinOptions;
     filters?: QueryWhereOptions<T>;
     pagination?: {
         size: QueryLimitOptions;

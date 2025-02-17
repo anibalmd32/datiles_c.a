@@ -1,30 +1,90 @@
 import { useEffect } from "react";
-import { useMeasurementsActions } from "../../actions/measurementActions";
-import { useMeasurementsStore } from "../../stores/measurementsStore";
+import { MeasurementUnitForm } from "./forms";
+import { Check, Plus } from "lucide-react";
+import { useMeasurementsUnitForm } from "../../hooks/useMeasurementUnitForm";
+import { Button } from "@/components/ui/button";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { MeasurementUnitData } from "@/definitions/data";
 
-export const MeasurementUnitsDataList = () => {
-    const { loadMeasurements } = useMeasurementsActions();
-    const measurementUnitData = useMeasurementsStore(
-        (store) => store.measurements,
-    );
+type Props = {
+    stockModeId: number;
+    measurements: MeasurementUnitData[];
+};
+
+export const MeasurementUnitsDataList = ({
+    stockModeId,
+    measurements,
+}: Props) => {
+    const { handleOpenForm, form, handleDelete } = useMeasurementsUnitForm();
 
     useEffect(() => {
-        loadMeasurements.run();
-    }, []);
+        if (stockModeId) {
+            form.setValue("stock_mode_id", stockModeId);
+        }
+    }, [stockModeId]);
 
     return (
-        <div>
-            <ul>
-                {measurementUnitData.length === 0 && (
-                    <p>
-            No se han agregado unidades de medida para este modo de
-            almacenamiento
+        <div className="relative p-6">
+            <div className="flex justify-between items-center absolute top-0 right-0">
+                <Button
+                    variant={"ghost"}
+                    onClick={() => handleOpenForm({ id: stockModeId })}
+                >
+                    <Plus className="text-green-400" />
+                </Button>
+            </div>
+            <ul className="mt-2">
+                {measurements.length === 0 && (
+                    <p className="text-center text-sm text-gray-500">
+                        Agrega unidades de medida para este modo de
+                        almacenamiento
                     </p>
                 )}
-                {measurementUnitData.map((item) => (
-                    <li key={item.id}>{item.name}</li>
+                {measurements.map((item) => (
+                    <li
+                        key={item.id}
+                        className="flex justify-between items-center"
+                    >
+                        <span className="flex gap-2">
+                            <Check />
+                            {item.name}
+                        </span>
+
+                        <DropdownMenu>
+                            <DropdownMenuTrigger>...</DropdownMenuTrigger>
+                            <DropdownMenuContent>
+                                <DropdownMenuLabel>
+                                    Unidad de medida
+                                </DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem
+                                    onClick={() => {
+                                        handleOpenForm(item);
+                                    }}
+                                >
+                                    Editar
+                                </DropdownMenuItem>
+                                <DropdownMenuItem
+                                    onClick={async () =>
+                                        await handleDelete(item)
+                                    }
+                                >
+                                    Eliminar
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </li>
                 ))}
             </ul>
+
+            <MeasurementUnitForm />
         </div>
     );
 };

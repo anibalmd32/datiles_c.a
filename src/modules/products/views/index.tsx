@@ -2,7 +2,7 @@ import { ProductsProvider } from "../providers/ProductsProviders";
 import { ViewContainer } from "@/components/shared/ViewMisc/ViewContainer";
 import { ViewTitle } from "@/components/shared/ViewMisc/ViewTitle";
 import { Separator } from "@/components/ui/separator";
-import { ProductsTable } from "../components/productsTable";
+import { ProductsTable } from "../components/ProductsTable";
 import { useNavigate } from "react-router";
 import { IconButton } from "@/components/shared/IconButton/IconButton";
 import { PlusCircle } from "lucide-react";

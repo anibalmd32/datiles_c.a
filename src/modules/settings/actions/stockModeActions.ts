@@ -1,4 +1,8 @@
-import { StockModeData, StockMode } from "@/definitions/data";
+import {
+    StockModeData,
+    StockMode,
+    MeasurementUnitData,
+} from "@/definitions/data";
 import { useAsyncExecute } from "@/hooks/useAsyncExecute";
 import { useStockModesStore } from "../stores/stockModesStore";
 import { TABLES } from "@/definitions/enums";
@@ -10,7 +14,9 @@ export const useStockModeActions = () => {
         execute: async () => {
             const { pagination, filters } = useStockModesStore.getState();
 
-            const model = new Model<StockModeData>(TABLES.STOCK_MODE);
+            const model = new Model<
+                StockModeData & { measurements: MeasurementUnitData[] }
+            >(TABLES.STOCK_MODE);
 
             const data = await model.select(
                 {
@@ -25,6 +31,27 @@ export const useStockModeActions = () => {
                 ],
             );
 
+            const stockModeData = await Promise.all(
+                data.map(async (item) => {
+                    const measurementsModel = new Model<MeasurementUnitData>(
+                        TABLES.MEASUREMENT_UNITS,
+                    );
+                    const data = await measurementsModel.select(
+                        {
+                            filters: [
+                                {
+                                    column: "stock_mode_id",
+                                    operator: "=",
+                                    value: "?",
+                                },
+                            ],
+                        },
+                        [item.id],
+                    );
+                    return { ...item, measurements: data };
+                }),
+            );
+
             const total = await model.count(
                 {
                     where: [{ column: "name", operator: "like", value: "?" }],
@@ -36,7 +63,7 @@ export const useStockModeActions = () => {
 
             useStockModesStore.setState((state) => ({
                 ...state,
-                data: [...data],
+                data: [...stockModeData],
                 pagination: {
                     ...state.pagination,
                     totalPages,

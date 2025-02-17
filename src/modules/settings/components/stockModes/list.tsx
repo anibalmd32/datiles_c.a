@@ -5,33 +5,32 @@ import { useStockModeList } from "../../hooks/useStockModeList";
 import { useStockModesStore } from "../../stores/stockModesStore";
 import { useStockModeActions } from "../../actions/stockModeActions";
 import { useEffect, useState } from "react";
-import { StockModeData } from "@/definitions/data";
-
-const MeasurementUnits = () => {
-    return (
-        <div>
-            <p>Unidades de medida</p>
-        </div>
-    );
-};
+import { MeasurementUnitData, StockModeData } from "@/definitions/data";
+import { MeasurementUnitsDataList } from "../measurements/list";
+import { MeasurementsUnitFormProvider } from "../../hooks/useMeasurementUnitForm";
+import { motion, AnimatePresence } from "framer-motion";
 
 function StockModeListItem({
     item,
     editAction,
     deleteAction,
 }: {
-  item: StockModeData;
-  editAction: (item: StockModeData) => void;
-  deleteAction: (item: StockModeData) => Promise<void>;
+    item: StockModeData & { measurements: MeasurementUnitData[] };
+    editAction: (item: StockModeData) => void;
+    deleteAction: (item: StockModeData) => Promise<void>;
 }) {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <ListItem key={item.id}>
-            <div className="flex justify-between items-center">
+        <ListItem key={item.id} className="relative">
+            {" "}
+            <div
+                className="flex justify-between items-center cursor-pointer"
+                onClick={() => setIsOpen((prev) => !prev)}
+            >
                 <div className="flex flex-col gap-2">
                     <div className="font-semibold capitalize flex justify-center items-center gap-4">
-                        <Button variant="ghost" onClick={() => setIsOpen((prev) => !prev)}>
+                        <Button variant="ghost">
                             {isOpen ? (
                                 <MinusSquare className="hover:scale-105 transition-all duration-150 cursor-pointer" />
                             ) : (
@@ -40,26 +39,48 @@ function StockModeListItem({
                         </Button>
                         {item.name}
                     </div>
-
-                    {isOpen && <MeasurementUnits />}
                 </div>
                 <div className="flex gap-2">
                     <Button
                         size="icon"
-                        onClick={() => editAction(item)}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            editAction(item);
+                        }}
                         variant="outline"
                     >
                         <Pencil className="text-blue-400 hover:scale-105 transition-all duration-150 cursor-pointer" />
                     </Button>
                     <Button
                         size="icon"
-                        onClick={async () => deleteAction(item)}
+                        onClick={async (e) => {
+                            e.stopPropagation();
+                            deleteAction(item);
+                        }}
                         variant="outline"
                     >
                         <Trash className="text-red-400 hover:scale-105 transition-all duration-150 cursor-pointer" />
                     </Button>
                 </div>
             </div>
+            <AnimatePresence>
+                {isOpen && (
+                    <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.1, ease: "easeInOut" }}
+                        className="top-full left-0 w-full bg-white shadow-md rounded mt-4"
+                    >
+                        <MeasurementsUnitFormProvider>
+                            <MeasurementUnitsDataList
+                                stockModeId={item.id}
+                                measurements={item.measurements}
+                            />
+                        </MeasurementsUnitFormProvider>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </ListItem>
     );
 }

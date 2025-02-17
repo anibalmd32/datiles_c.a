@@ -12,36 +12,36 @@ import {
 } from "@/definitions/queryBuilder";
 
 interface Builder<T> {
-  fromQuery: (option: QueryFromOptions) => this;
-  selectQuery: (options?: QuerySelectOptions<T>) => this;
-  whereQuery: (options: QueryWhereOptions<T>) => this;
-  joinQuery: (options: QueryJoinOptions<T>) => this;
-  orderQuey: (option: QueryOrderOptions) => this;
-  limitQuery: (option: QueryLimitOptions) => this;
-  offsetQuery: (option: QueryOffsetOptions) => this;
-  countQuery: () => this;
-  insertQuery: (options: QueryInsertOptions<T>, id: string) => this;
-  deleteQuery: (option: string) => this;
-  updateQuery: (options: QueryUpdateOptions<T>, id: string) => this;
-  build: () => string;
+    fromQuery: (option: QueryFromOptions) => this;
+    selectQuery: (options?: QuerySelectOptions<T>) => this;
+    whereQuery: (options: QueryWhereOptions<T>) => this;
+    joinQuery: (options: QueryJoinOptions) => this;
+    orderQuey: (option: QueryOrderOptions) => this;
+    limitQuery: (option: QueryLimitOptions) => this;
+    offsetQuery: (option: QueryOffsetOptions) => this;
+    countQuery: () => this;
+    insertQuery: (options: QueryInsertOptions<T>, id: string) => this;
+    deleteQuery: (option: string) => this;
+    updateQuery: (options: QueryUpdateOptions<T>, id: string) => this;
+    build: () => string;
 }
 
 export class QueryBuilder<T> implements Builder<T> {
     private table: string;
 
     private queryParts: {
-    from?: string;
-    select?: string;
-    where?: string;
-    join?: string;
-    order?: string;
-    limit?: string;
-    offset?: string;
-    count?: string;
-    insert?: string;
-    remove?: string;
-    update?: string;
-  } = {};
+        from?: string;
+        select?: string;
+        where?: string;
+        join?: string;
+        order?: string;
+        limit?: string;
+        offset?: string;
+        count?: string;
+        insert?: string;
+        remove?: string;
+        update?: string;
+    } = {};
 
     constructor(from: TABLES) {
         this.table = from;
@@ -69,12 +69,16 @@ export class QueryBuilder<T> implements Builder<T> {
             const operator = option.operator;
 
             if (operator === "like") {
-                conditions.push(`${col} LIKE '%' || ${option.value} || '%' `);
+                conditions.push(
+                    `${this.table}.${col} LIKE '%' || ${option.value} || '%' `,
+                );
             } else if (operator === "=") {
-                conditions.push(`${col} = COALESCE(${option.value}, ${col}) `);
+                conditions.push(
+                    `${this.table}.${col} = COALESCE(${option.value}, ${col}) `,
+                );
             } else {
                 conditions.push(
-                    `(${col} ${operator} ${option.value} OR ${option.value} IS NULL) `,
+                    `(${this.table}.${col} ${operator} ${option.value} OR ${option.value} IS NULL) `,
                 );
             }
         }
@@ -86,11 +90,12 @@ export class QueryBuilder<T> implements Builder<T> {
         return this;
     }
 
-    joinQuery(options: QueryJoinOptions<T>) {
+    joinQuery(options: QueryJoinOptions) {
+        this.queryParts.join = "";
         for (const option of options) {
-            this.queryParts.join += `JOIN ${String(option.table)} ON ${this.queryParts.from}.${String(option.fk)} = ${String(option.table)}.id`;
+            const onCondition = `${this.table}.id = ${String(option.table)}.${option.fk}`;
+            this.queryParts.join += `JOIN ${String(option.table)} ON ${onCondition}`;
         }
-
         return this;
     }
 

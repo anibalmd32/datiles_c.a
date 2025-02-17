@@ -7,14 +7,15 @@ export type QueryFromOptions = TABLES;
 export type QueryOrderOptions = "ASC" | "DESC";
 
 export type QueryWhereOptions<T> = Array<{
-  column: keyof T;
-  value: string;
-  operator: "=" | "<=" | ">=" | ">" | "<" | "like";
+    column: keyof T;
+    value: string;
+    operator: "=" | "<=" | ">=" | ">" | "<" | "like";
 }>;
 
-export type QueryJoinOptions<T> = Array<{
-  table: TABLES;
-  fk: keyof T;
+export type QueryJoinOptions = Array<{
+    table: TABLES;
+    fk: string;
+    type?: "INNER" | "LEFT" | "RIGHT" | "FULL"; // Tipo de JOIN opcional
 }>;
 
 export type QueryOffsetOptions = string;
