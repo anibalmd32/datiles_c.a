@@ -1,4 +1,4 @@
-import Database from "@tauri-apps/plugin-sql";
+import Database, { QueryResult } from "@tauri-apps/plugin-sql";
 import { TABLES } from "@/definitions/enums";
 import {
     QueryJoinOptions,
@@ -44,7 +44,7 @@ interface IModel<T> {
     create: (
         options: QueryInsertOptions<T>,
         params: Array<unknown>,
-    ) => Promise<void>;
+    ) => Promise<QueryResult>;
     delete: ({ id }: { id: number }) => Promise<void>;
     update: (
         options: ModelUpdateOptions<T>,
@@ -96,7 +96,8 @@ export class Model<T> implements IModel<T> {
         const db = await Database.load("sqlite:datiles.db");
         const query = new QueryBuilder<T>(this.table).insertQuery(options);
 
-        await db.execute(query.build(), params);
+        const result = await db.execute(query.build(), params);
+        return result;
     }
 
     async delete({ id }: { id: number }): Promise<void> {

@@ -21,7 +21,7 @@ const items = [
         icon: DollarSign,
     },
     {
-        title: "Productos",
+        title: "Inventario",
         url: "app/products",
         icon: LucideBox,
     },
@@ -40,14 +40,17 @@ export function AppSidebar() {
             <SidebarContent>
                 <SidebarGroup className="h-full">
                     <SidebarGroupLabel className="text-xl font-bold mb-4">
-            DATILES C.A.
+                        DATILES C.A.
                     </SidebarGroupLabel>
                     <SidebarGroupContent className="flex flex-col justify-between h-full">
                         <SidebarMenu>
                             {items.map((item) => (
                                 <SidebarMenuItem key={item.title}>
                                     <SidebarMenuButton asChild>
-                                        <NavLink to={item.url} className="font-semibold">
+                                        <NavLink
+                                            to={item.url}
+                                            className="font-semibold"
+                                        >
                                             <item.icon />
                                             <span>{item.title}</span>
                                         </NavLink>
@@ -59,7 +62,7 @@ export function AppSidebar() {
                         <div>
                             {dolarPrice && (
                                 <p className="text-center font-bold text-xl">
-                  $1 = Bs. {dolarPrice}
+                                    $1 = Bs. {dolarPrice}
                                 </p>
                             )}
                         </div>

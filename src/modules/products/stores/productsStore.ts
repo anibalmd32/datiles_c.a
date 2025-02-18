@@ -14,14 +14,22 @@ import { createPaginationSlice, PaginationState } from "@/lib/paginationSlice";
 import { createFilterSlice, FilterState } from "@/lib/filtersSlice";
 
 // Data Definition
-import { Product, ProductData, ProductDynamicValues } from "@/definitions/data";
+import {
+    Product,
+    ProductData,
+    ProductDynamicValues,
+    Stock,
+} from "@/definitions/data";
 import { useDolarStore } from "@/hooks/us-dolar-store";
+import { ProductFormType } from "../schemas/productSchema";
+import { TABLES } from "@/definitions/enums";
+import { Model } from "@/lib/queryBuilder/Model";
 
 // State Definition
 type StoreState = {
-  products: Array<ProductData & ProductDynamicValues>;
-  pagination: PaginationState;
-  filters: FilterState;
+    products: Array<ProductData & ProductDynamicValues>;
+    pagination: PaginationState;
+    filters: FilterState;
 };
 
 // Store instance
@@ -97,7 +105,9 @@ export const useProductsActions = () => {
                 countParams,
             );
 
-            const totalPages = Math.ceil(totalStoredRows.total / pagination.pageSize);
+            const totalPages = Math.ceil(
+                totalStoredRows.total / pagination.pageSize,
+            );
 
             const paginatedData = await db.select<Array<ProductData>>(
                 selectSql,
@@ -105,13 +115,13 @@ export const useProductsActions = () => {
             );
 
             const productData: Array<ProductData & ProductDynamicValues> =
-        paginatedData.map((item) => ({
-            ...item,
-            sale_bs: String(Number(item.sale_usd) * Number(dolarPrice)),
-            revenue_bs: String(Number(item.revenue_usd) * Number(dolarPrice)),
-        }));
-
-            console.log("Resultado de cargar los productos", productData);
+                paginatedData.map((item) => ({
+                    ...item,
+                    sale_bs: String(Number(item.sale_usd) * Number(dolarPrice)),
+                    revenue_bs: String(
+                        Number(item.revenue_usd) * Number(dolarPrice),
+                    ),
+                }));
 
             useProductsStore.setState((state) => ({
                 ...state,
@@ -124,40 +134,49 @@ export const useProductsActions = () => {
         },
     });
 
-    const addProducts = useAsyncExecute<Product>({
+    const addProducts = useAsyncExecute<ProductFormType>({
         execute: async (values) => {
             if (values) {
-                const db = await Database.load("sqlite:datiles.db");
-                await db.execute(
-                    `
-                    INSERT INTO
-                        products (
-                            name,
-                            code,
-                            purchase_usd,
-                            purchase_bs,
-                            iva,
-                            sale_usd,
-                            quantity,
-                            revenue_usd,
-                            unit_id,
-                            category_id
-                        )
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                    `,
+                const productsModel = new Model<Product>(TABLES.PRODUCTS);
+                const stockModel = new Model<Stock>(TABLES.STOCK);
+
+                const { lastInsertId } = await productsModel.create(
+                    {
+                        name: "?",
+                        purchase_usd: "?",
+                        purchase_bs: "?",
+                        sale_usd: "?",
+                        iva: "?",
+                        category_id: "?",
+                        code: "?",
+                    },
                     [
                         values.name,
-                        values.code,
                         values.purchase_usd,
                         values.purchase_bs,
-                        values.iva,
                         values.sale_usd,
-                        values.quantity,
-                        values.revenue_usd,
-                        values.unit_id,
+                        values.iva,
                         values.category_id,
+                        values.code,
                     ],
                 );
+
+                if (lastInsertId) {
+                    await stockModel.create(
+                        {
+                            measurement_unit_id: "?",
+                            product_id: "?",
+                            quantity: "?",
+                            unit_per_measurement: "?",
+                        },
+                        [
+                            values.measurement_unit_id,
+                            lastInsertId,
+                            values.quantity,
+                            values.unit_per_measurement,
+                        ],
+                    );
+                }
             }
         },
     });
@@ -167,7 +186,9 @@ export const useProductsActions = () => {
             if (values) {
                 const db = await Database.load("sqlite:datiles.db");
 
-                await db.execute("DELETE FROM products WHERE id = ?", [values.id]);
+                await db.execute("DELETE FROM products WHERE id = ?", [
+                    values.id,
+                ]);
             }
         },
     });
@@ -239,7 +260,11 @@ export const useProductsActions = () => {
     }, []);
 
     useEffect(() => {
-        if (addProducts.finished && addProducts.success && !addProducts.loading) {
+        if (
+            addProducts.finished &&
+            addProducts.success &&
+            !addProducts.loading
+        ) {
             loadProducts.run();
             addProducts.reset();
         }
@@ -248,8 +273,8 @@ export const useProductsActions = () => {
     useEffect(() => {
         if (
             deleteProducts.finished &&
-      deleteProducts.success &&
-      !deleteProducts.loading
+            deleteProducts.success &&
+            !deleteProducts.loading
         ) {
             loadProducts.run();
             deleteProducts.reset();

@@ -3,9 +3,9 @@ import { ProductFormType, productSchema } from "../schemas/productSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAlert } from "@/hooks/useAlert";
 import { useCategoryActions } from "@/modules/settings/stores/categoriesStore";
-import { useMeasurementsActions } from "@/modules/settings/actions/measurementActions";
 import { useEffect } from "react";
 import { useProductsActions } from "../stores/productsStore";
+import { useStockModeActions } from "@/modules/settings/actions/stockModeActions";
 
 export const useProductsForm = () => {
     const form = useForm<ProductFormType>({
@@ -14,12 +14,12 @@ export const useProductsForm = () => {
             code: "",
             iva: "",
             name: "",
-            purchase_bs: "",
+            purchase_bs: "0",
             purchase_usd: "",
             quantity: 0,
-            revenue_usd: "",
-            sale_usd: "",
-            unit_id: undefined,
+            measurement_unit_id: undefined,
+            sale_usd: "0",
+            unit_per_measurement: 0,
         },
         resolver: zodResolver(productSchema),
     });
@@ -28,12 +28,13 @@ export const useProductsForm = () => {
 
     const { addProducts } = useProductsActions();
     const { loadCategories } = useCategoryActions();
-    const { loadMeasurements } = useMeasurementsActions();
+    const { load: loadStockMode } = useStockModeActions();
 
     const onSubmit = form.handleSubmit(async (values) => {
         await addProducts.run(
             {
-                onSuccess: () => emitSuccessAlert("Producto agregado con éxito"),
+                onSuccess: () =>
+                    emitSuccessAlert("Producto agregado con éxito"),
                 onError: () => emitErrorAlert("Error al agregar producto"),
                 onFinish: () => form.reset(),
             },
@@ -42,9 +43,8 @@ export const useProductsForm = () => {
     });
 
     useEffect(() => {
-        console.log(addProducts);
         loadCategories.run();
-        loadMeasurements.run();
+        loadStockMode.run();
     }, []);
 
     return {
