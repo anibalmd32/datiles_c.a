@@ -23,7 +23,7 @@ interface Builder<T> {
     insertQuery: (options: QueryInsertOptions<T>, id: string) => this;
     deleteQuery: (option: string) => this;
     updateQuery: (options: QueryUpdateOptions<T>, id: string) => this;
-    build: () => string;
+    build: () => string
 }
 
 export class QueryBuilder<T> implements Builder<T> {
