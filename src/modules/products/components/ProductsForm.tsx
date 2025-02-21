@@ -2,23 +2,15 @@ import * as ShadForm from "@/components/ui/form";
 import { ProductFormType } from "../schemas/productSchema";
 import { Control, ControllerRenderProps } from "react-hook-form";
 import { useProductsForm } from "../hooks/useProductsForm";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect } from "react";
 import { Input } from "@/components/ui/input";
-import {
-    SelectOptionItem,
-    SelectOptions,
-} from "@/components/shared/SelectOption/SelectOption";
-import {
-    useCategoriesStore,
-    useCategoryActions,
-} from "@/modules/settings/stores/categoriesStore";
+import { SelectOptions } from "@/components/shared/SelectOption/SelectOption";
 import { IconButton } from "@/components/shared/IconButton/IconButton";
 import { Save, RotateCcw } from "lucide-react";
-import { useStockModesStore } from "@/modules/settings/stores/stockModesStore";
-import { useProductCalculates } from "../hooks/useCalculates";
 import { useProductsActions } from "../stores/productsStore";
 import { useAlert } from "@/hooks/useAlert";
-import { useStockModeActions } from "@/modules/settings/actions/stockModeActions";
+import { useProductFormCalculations } from "../hooks/useProductFormCalculations";
+import { useProductFormSelects } from "../hooks/useProductFormSelects";
 
 const FormField = ({
     control,
@@ -47,42 +39,27 @@ const FormField = ({
 };
 
 export function ProductsForm() {
-    const categories = useCategoriesStore((store) => store.categories);
-    const stockModes = useStockModesStore((store) => store.data);
     const { form } = useProductsForm();
     const { addProducts } = useProductsActions();
-    const { loadCategories } = useCategoryActions();
-    const { load: loadStockMode } = useStockModeActions();
     const { emitErrorAlert, emitSuccessAlert } = useAlert();
 
     const {
-        retailCost,
-        wholesaleCost,
-        retailSale,
-        wholesaleSale,
-        gainRetail,
-        wholesaleGain,
-    } = useProductCalculates();
+        categoriesSelectOptions,
+        stockModesSelectOptions,
+        measurementOptions,
+        measurementName,
+        isWholesale,
+        updateMeasurements,
+        resetSelects,
+    } = useProductFormSelects();
 
-    const [categoriesSelectOptions, setCategoriesSelectOptions] = useState<
-        SelectOptionItem[]
-    >([]);
-    const [stockModesSelectOptions, setStockModesSelectOptions] = useState<
-        SelectOptionItem[]
-    >([]);
-    const [measurementOptions, setMeasurementOptions] = useState<
-        SelectOptionItem[]
-    >([]);
-    const [measurementName, setMeasurementName] = useState<string>("");
-    const [isWholesale, setIsWholesale] = useState(false);
-    const [calculatedValues, setCalculatedValues] = useState({
-        retailCost: { usd: 0, bs: 0 },
-        wholesaleCost: { usd: 0, bs: 0 },
-        retailSale: { usd: 0, bs: 0 },
-        wholesaleSale: { usd: 0, bs: 0 },
-        gainRetail: { usd: 0, bs: 0 },
-        wholesaleGain: { usd: 0, bs: 0 },
-    });
+    const {
+        calculatedValues,
+        updateRetailCalculations,
+        updateWholesaleCalculations,
+        updateWholesaleGain,
+        resetCalculations,
+    } = useProductFormCalculations();
 
     // Obtenemos los valores mediante form.watch para usarlos en los efectos
     const stockModeId = form.watch("stock_mode_id");
@@ -93,25 +70,20 @@ export function ProductsForm() {
     const iva = form.watch("iva");
 
     const resetFormAndState = async () => {
-        form.reset(); // Resets the form using react-hook-form's reset function
-
-        // Resets calculated values to their initial state.
-        setCalculatedValues({
-            retailCost: { usd: 0, bs: 0 },
-            wholesaleCost: { usd: 0, bs: 0 },
-            retailSale: { usd: 0, bs: 0 },
-            wholesaleSale: { usd: 0, bs: 0 },
-            gainRetail: { usd: 0, bs: 0 },
-            wholesaleGain: { usd: 0, bs: 0 },
+        form.reset({
+            name: "",
+            category_id: undefined,
+            iva: "",
+            purchase_usd: "",
+            code: "",
+            stock_mode_id: undefined,
+            measurement_unit_id: undefined,
+            quantity: 0,
+            unit_per_measurement: 0,
         });
-
-        setMeasurementName("");
-        setCategoriesSelectOptions([]);
-        setStockModesSelectOptions([]);
-        setMeasurementOptions([]);
-        setIsWholesale(false); // or whatever your initial value is
-        await loadCategories.run(); // Loads the categories from the database
-        await loadStockMode.run(); // Loads the stock modes from the database
+        resetCalculations();
+        await resetSelects();
+        window.location.reload();
     };
 
     const onSubmit = form.handleSubmit(async (values) => {
@@ -128,102 +100,38 @@ export function ProductsForm() {
 
     // useEffect for Stock Mode and Measurements (Combined and simplified)
     useEffect(() => {
-        if (!stockModeId || !stockModes.length) return;
-
-        const stockMode = stockModes.find(
-            (item) => item.id === Number(stockModeId),
-        );
-        if (!stockMode) return;
-
-        setIsWholesale(stockMode.name.toLocaleLowerCase().includes("al mayor")); // Clearer naming
-
-        setMeasurementOptions(
-            stockMode.measurements.map((item) => ({
-                label: item.name,
-                value: String(item.id),
-            })),
-        );
-
-        if (measurementUnitId) {
-            // Moved measurement name update inside this effect
-            const measurement = stockMode.measurements.find(
-                (item) => item.id === Number(measurementUnitId),
-            );
-            setMeasurementName(measurement?.name || ""); // Handle undefined case
+        if (stockModeId) {
+            updateMeasurements(Number(stockModeId), Number(measurementUnitId));
         }
-    }, [stockModeId, stockModes, measurementUnitId]);
+    }, [stockModeId, measurementUnitId]);
 
-    // useEffect for Calculations (Consolidated and more efficient)
     useEffect(() => {
         if (!purchaseUsd) return;
-
         const purchase = Number(purchaseUsd);
 
         if (unitPerMeasurement) {
-            const unitPerMeas = Number(unitPerMeasurement);
-            setCalculatedValues((prev) => ({
-                ...prev,
-                retailCost: retailCost(purchase, unitPerMeas),
-                gainRetail: gainRetail(Number(iva), purchase, unitPerMeas),
-                retailSale: retailSale(Number(iva), purchase, unitPerMeas),
-            }));
+            updateRetailCalculations(
+                purchase,
+                Number(unitPerMeasurement),
+                Number(iva),
+            );
         }
 
         if (quantity) {
-            const qty = Number(quantity);
-            setCalculatedValues((prev) => ({
-                ...prev,
-                wholesaleCost: wholesaleCost(purchase, qty),
-                wholesaleSale: wholesaleSale(Number(iva), purchase, qty),
-            }));
+            updateWholesaleCalculations(
+                purchase,
+                Number(quantity),
+                Number(iva),
+            );
         }
-    }, [
-        purchaseUsd,
-        unitPerMeasurement,
-        quantity,
-        iva,
-        retailCost,
-        wholesaleCost,
-        retailSale,
-        wholesaleSale,
-        gainRetail,
-    ]);
+    }, [purchaseUsd, unitPerMeasurement, quantity, iva]);
 
     useEffect(() => {
-        setCalculatedValues((prev) => ({
-            ...prev,
-            wholesaleGain: wholesaleGain(
-                calculatedValues.wholesaleCost.usd,
-                calculatedValues.wholesaleSale.usd,
-            ),
-        }));
+        updateWholesaleGain();
     }, [
         calculatedValues.wholesaleCost.usd,
         calculatedValues.wholesaleSale.usd,
-        wholesaleGain,
     ]);
-
-    useEffect(() => {
-        if (categories.length > 0) {
-            setCategoriesSelectOptions(
-                categories.map((item) => ({
-                    label: item.name,
-                    value: String(item.id),
-                })),
-            );
-        }
-    }, [categories]);
-
-    useEffect(() => {
-        if (stockModes.length > 0) {
-            setStockModesSelectOptions(
-                stockModes.map((item) => ({
-                    label: item.name,
-                    value: String(item.id),
-                })),
-            );
-        }
-    }, [stockModes]);
 
     return (
         <ShadForm.Form {...form}>

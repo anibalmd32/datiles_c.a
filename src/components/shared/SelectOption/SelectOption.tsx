@@ -5,7 +5,6 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-// import { useState } from "react";
 
 export type SelectOptionItem = {
     value: string;
@@ -19,8 +18,6 @@ interface Props {
 }
 
 export function SelectOptions(props: Props) {
-    // const [defaultValue] = useState(" ");
-
     const { onExternalChange, options, placeholder } = props;
 
     return (
