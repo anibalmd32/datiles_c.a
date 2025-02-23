@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { SelectOptions } from "@/components/shared/SelectOption/SelectOption";
 import { IconButton } from "@/components/shared/IconButton/IconButton";
 import { Save, RotateCcw } from "lucide-react";
-import { useProductsActions } from "../stores/productsStore";
+import { useProductsActions } from "../actions/productsActions";
 import { useAlert } from "@/hooks/useAlert";
 import { useProductFormCalculations } from "../hooks/useProductFormCalculations";
 import { useProductFormSelects } from "../hooks/useProductFormSelects";

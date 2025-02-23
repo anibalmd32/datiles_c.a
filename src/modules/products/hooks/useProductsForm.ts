@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useAlert } from "@/hooks/useAlert";
 import { useCategoryActions } from "@/modules/settings/stores/categoriesStore";
 import { useEffect } from "react";
-import { useProductsActions } from "../stores/productsStore";
+import { useProductsActions } from "../actions/productsActions";
 import { useStockModeActions } from "@/modules/settings/actions/stockModeActions";
 
 export const useProductsForm = () => {

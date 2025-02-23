@@ -1,9 +1,9 @@
 import { DataTableRow } from "@/components/shared/DataTable/DataTable";
-import { ProductData, ProductDynamicValues } from "@/definitions/data";
+import { ProductData } from "@/definitions/data";
 
 export const productsRows = (
-    products: Array<ProductData & ProductDynamicValues>,
-): DataTableRow<ProductData & ProductDynamicValues>[] => {
+    products: Array<ProductData>,
+): DataTableRow<ProductData>[] => {
     return products.map((product) => ({
         field: product,
         render: ({ colName, field }) => {
@@ -29,34 +29,6 @@ export const productsRows = (
 
             if (colName === "sale_usd") {
                 return <div className="text-center">{field.sale_usd}</div>;
-            }
-
-            if (colName === "sale_bs") {
-                return <div className="text-center">{field.sale_bs}</div>;
-            }
-
-            if (colName === "revenue_usd") {
-                return <div className="text-center">${field.revenue_usd}</div>;
-            }
-
-            if (colName === "revenue_bs") {
-                return <div className="text-center">Bs. {field.revenue_bs}</div>;
-            }
-
-            if (colName === "quantity") {
-                return (
-                    <div className="text-center">
-                        {field.quantity} {field.unit}
-                    </div>
-                );
-            }
-
-            if (colName === "category_id") {
-                return (
-                    <div className="text-center">
-                        {field.quantity} {field.category}
-                    </div>
-                );
             }
         },
     }));

@@ -6,25 +6,27 @@ import {
     useState,
 } from "react";
 import { AsyncAction } from "@/hooks/useAsyncExecute";
-import { useProductsActions, useProductsStore } from "../stores/productsStore";
-import { Product, ProductData, ProductDynamicValues } from "@/definitions/data";
+import { useProductsStore } from "../stores/productsStore";
+import { useProductsActions } from "../actions/productsActions";
+import { ProductData } from "@/definitions/data";
 import { useAlert } from "@/hooks/useAlert";
 import { FilterState } from "@/lib/filtersSlice";
 import { PaginationState } from "@/lib/paginationSlice";
+import { ProductFormType } from "../schemas/productSchema";
 
 const ProductsContext = createContext(
-  {} as {
-    addProducts: AsyncAction<Product>;
-    deleteProducts: AsyncAction<ProductData>;
-    loadProducts: AsyncAction<ProductData>;
-    updateProducts: AsyncAction<ProductData>;
-    handleShowDeleteAlert: (item: ProductData) => void;
-    onConfirmDelete: () => Promise<void>;
-    showDeleteAlert: boolean;
-    filters: FilterState;
-    pagination: PaginationState;
-    products: Array<ProductData & ProductDynamicValues>;
-  },
+    {} as {
+        addProducts: AsyncAction<ProductFormType>;
+        deleteProducts: AsyncAction<ProductData>;
+        loadProducts: AsyncAction<ProductData>;
+        updateProducts: AsyncAction<ProductData>;
+        handleShowDeleteAlert: (item: ProductData) => void;
+        onConfirmDelete: () => Promise<void>;
+        showDeleteAlert: boolean;
+        filters: FilterState;
+        pagination: PaginationState;
+        products: Array<ProductData>;
+    },
 );
 
 export function ProductsProvider({ children }: { children: ReactNode }) {
@@ -32,7 +34,7 @@ export function ProductsProvider({ children }: { children: ReactNode }) {
     const [itemToDelete, setItemToDelete] = useState<ProductData | null>(null);
 
     const { addProducts, deleteProducts, loadProducts, updateProducts } =
-    useProductsActions();
+        useProductsActions();
 
     const { filters, pagination, products } = useProductsStore();
 
@@ -48,7 +50,8 @@ export function ProductsProvider({ children }: { children: ReactNode }) {
             await deleteProducts.run(
                 {
                     onSuccess: () => emitSuccessAlert("Producto eliminado."),
-                    onError: () => emitErrorAlert("Error al eliminar el producto."),
+                    onError: () =>
+                        emitErrorAlert("Error al eliminar el producto."),
                 },
                 itemToDelete,
             );
