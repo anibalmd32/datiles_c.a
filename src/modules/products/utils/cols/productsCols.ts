@@ -13,13 +13,8 @@ export const productsCols: DataTableCol<ProductData>[] = [
         position: "center",
     },
     {
-        label: "Precio de compra (USD)",
+        label: "Precio de compra",
         name: "purchase_usd",
-        position: "center",
-    },
-    {
-        label: "Precio de compra (BS)",
-        name: "purchase_bs",
         position: "center",
     },
     {
@@ -28,7 +23,7 @@ export const productsCols: DataTableCol<ProductData>[] = [
         position: "center",
     },
     {
-        label: "Precio de venta (USD)",
+        label: "Precio de venta por unidad",
         name: "sale_usd",
         position: "center",
     },

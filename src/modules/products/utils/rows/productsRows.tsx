@@ -16,11 +16,11 @@ export const productsRows = (
             }
 
             if (colName === "purchase_usd") {
-                return <div className="text-center">{field.purchase_usd}</div>;
-            }
-
-            if (colName === "purchase_bs") {
-                return <div className="text-center">{field.purchase_bs}</div>;
+                return (
+                    <div className="text-center">
+                        ${field.purchase_usd} (Bs. {field.purchase_bs})
+                    </div>
+                );
             }
 
             if (colName === "iva") {
@@ -28,8 +28,15 @@ export const productsRows = (
             }
 
             if (colName === "sale_usd") {
-                return <div className="text-center">{field.sale_usd}</div>;
+                return <div className="text-center">${field.sale_usd}</div>;
             }
         },
+        // Optional: Add expanded content if needed
+        expandedContent: (
+            <div className="p-4">
+                <h3>Detalles adicionales</h3>
+                {/* Add your expanded content here */}
+            </div>
+        ),
     }));
 };

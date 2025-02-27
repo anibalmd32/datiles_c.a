@@ -16,8 +16,6 @@ export const useProductsTable = () => {
         onEdit: (item) => navigate(`/edit/${item.id}`),
     });
 
-    console.log(products);
-
     return {
         cols,
         rows,

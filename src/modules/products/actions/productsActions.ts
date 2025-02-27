@@ -19,8 +19,13 @@ import { TABLES } from "@/definitions/enums";
 
 // Store
 import { useProductsStore } from "../stores/productsStore";
+import { useDolarStore } from "@/hooks/us-dolar-store";
+import { useProductCalculates } from "../hooks/useCalculates";
 
 export const useProductsActions = () => {
+    const dolarStore = useDolarStore((store) => store.dolarPrice);
+    const { retailSale } = useProductCalculates();
+
     const loadProducts = useAsyncExecute({
         execute: async () => {
             const { pagination, filters } = useProductsStore.getState();
@@ -88,6 +93,30 @@ export const useProductsActions = () => {
 
                     return {
                         ...item,
+                        sale_usd: String(
+                            retailSale(
+                                Number(item.iva),
+                                Number(item.purchase_usd),
+                                Number(
+                                    stockData[0].unit_per_measurement ??
+                                        stockData[0].quantity,
+                                ),
+                            ).usd.toFixed(2),
+                        ).concat(
+                            ` (Bs. ${retailSale(
+                                Number(item.iva),
+                                Number(item.purchase_usd),
+                                Number(
+                                    stockData[0].unit_per_measurement ??
+                                        stockData[0].quantity,
+                                ),
+                            ).bs.toFixed(2)})`,
+                        ),
+                        purchase_bs: String(
+                            Number(
+                                Number(item.purchase_usd) * Number(dolarStore),
+                            ).toFixed(2),
+                        ),
                         stock: {
                             data: stockData[0],
                             measurement: measurementData[0],
