@@ -91,32 +91,23 @@ export const useProductsActions = () => {
                         [item.category_id],
                     );
 
+                    // Calculamos el precio de venta
+                    const salePrice = retailSale(
+                        Number(item.iva),
+                        Number(item.purchase_usd),
+                        Number(
+                            stockData[0].unit_per_measurement ??
+                            stockData[0].quantity,
+                        )
+                    );
+
+                    // Calculamos el precio de compra en bolívares
+                    const purchaseBs = Number(item.purchase_usd) * Number(dolarStore);
+
                     return {
                         ...item,
-                        sale_usd: String(
-                            retailSale(
-                                Number(item.iva),
-                                Number(item.purchase_usd),
-                                Number(
-                                    stockData[0].unit_per_measurement ??
-                                        stockData[0].quantity,
-                                ),
-                            ).usd.toFixed(2),
-                        ).concat(
-                            ` (Bs. ${retailSale(
-                                Number(item.iva),
-                                Number(item.purchase_usd),
-                                Number(
-                                    stockData[0].unit_per_measurement ??
-                                        stockData[0].quantity,
-                                ),
-                            ).bs.toFixed(2)})`,
-                        ),
-                        purchase_bs: String(
-                            Number(
-                                Number(item.purchase_usd) * Number(dolarStore),
-                            ).toFixed(2),
-                        ),
+                        sale_usd: String(salePrice.usd.toFixed(2)), // Removemos la concatenación del precio en Bs
+                        purchase_bs: String(purchaseBs.toFixed(2)),
                         stock: {
                             data: stockData[0],
                             measurement: measurementData[0],

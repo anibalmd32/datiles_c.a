@@ -13,6 +13,11 @@ export const productsCols: DataTableCol<ProductData>[] = [
         position: "center",
     },
     {
+        label: "Categoría",
+        name: "category",
+        position: "center",
+    },
+    {
         label: "Precio de compra",
         name: "purchase_usd",
         position: "center",

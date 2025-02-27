@@ -1,5 +1,6 @@
 import { DataTableRow } from "@/components/shared/DataTable/DataTable";
 import { ProductData } from "@/definitions/data";
+import { ProductExpandedContent } from "../../components/ProductExpandedContent";
 
 export const productsRows = (
     products: Array<ProductData>,
@@ -13,6 +14,14 @@ export const productsRows = (
 
             if (colName === "name") {
                 return <div className="text-center">{field.name}</div>;
+            }
+
+            if (colName === "category") {
+                return (
+                    <div className="text-center">
+                        {field.category?.name || "Sin categoría"}
+                    </div>
+                );
             }
 
             if (colName === "purchase_usd") {
@@ -31,12 +40,6 @@ export const productsRows = (
                 return <div className="text-center">${field.sale_usd}</div>;
             }
         },
-        // Optional: Add expanded content if needed
-        expandedContent: (
-            <div className="p-4">
-                <h3>Detalles adicionales</h3>
-                {/* Add your expanded content here */}
-            </div>
-        ),
+        expandedContent: <ProductExpandedContent product={product} />,
     }));
 };
